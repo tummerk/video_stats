@@ -1,0 +1,24 @@
+# Database
+sqlalchemy==2.0.25
+asyncpg==0.29.0
+alembic==1.13.1
+
+# Configuration
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Instagram Scraping
+instaloader==4.10.1
+
+# Audio Processing
+openai-whisper==20231117
+
+# Scheduler
+apscheduler==3.10.4
+
+# Retry logic
+tenacity==8.2.3
+
+# ASGI Server (for potential future use)
+uvicorn==0.25.0

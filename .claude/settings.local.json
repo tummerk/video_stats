@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/Scripts/python.exe:*)",
+      "Bash(.venv\\\\Scripts\\\\pip.exe:*)",
+      "Bash(.venv/Scripts/pip.exe list:*)",
+      "WebSearch",
+      "Bash(.venv/Scripts/alembic revision:*)",
+      "mcp__postgres__get_object_details",
+      "Bash(.venvScriptspython.exe:*)",
+      "Bash(cmd /c \"cd /d C:\\\\Users\\\\алах\\\\PycharmProjects\\\\PythonProject1 && .venv\\\\Scripts\\\\python.exe add_account.py thebranding.ai\")",
+      "mcp__postgres__list_objects",
+      "mcp__postgres__list_schemas",
+      "mcp__postgres__execute_sql",
+      "Bash(\".venv\\\\Scripts\\\\python.exe\" -m alembic revision -m \"simplify_account_model\")",
+      "Bash(pip install:*)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(dir \"C:\\\\Users\\\\алах\\\\PycharmProjects\\\\PythonProject1\\\\alembic\")",
+      "Bash(docker exec:*)",
+      "Bash(dir:*)",
+      "Bash(tree:*)",
+      "Bash(python.exe .venv/Scripts/python.exe:*)",
+      "Bash(if not exist \"audio\" mkdir audio)",
+      "Bash(if:*)",
+      "Bash(then rm instagram_session)",
+      "Bash(else echo \"No session file found\")",
+      "Bash(fi)",
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force src\\\\models, src\\\\services, src\\\\database, src\\\\utils, alembic, audio, src\\\\config.py, main.py, add_account.py, list_accounts.py, fetch_reels.py, scheduler_worker.py, discovery_worker.py, check_db.py, check_jobs.py, inspect_scheduler_tables.py, create_test_jobs.py, test_auth.py, test_metrics_collection.py, test_new_reels_fetch.py, test_system_mock.py, requirements.txt, .env.example, alembic.ini, CLAUDE.md, instagram_session, .env -ErrorAction SilentlyContinue; Write-Host ''Deletion complete''\")",
+      "Bash(powershell:*)",
+      "Bash(alembic init:*)",
+      "Bash(alembic revision:*)",
+      "Bash(alembic upgrade:*)",
+      "Bash(alembic current:*)",
+      "Bash(test:*)",
+      "Bash(alembic downgrade:*)",
+      "Bash(pip show:*)"
+    ]
+  }
+}
