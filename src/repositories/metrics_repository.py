@@ -1,5 +1,5 @@
 from typing import List
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import Metrics
 from src.repositories.base import BaseRepository
@@ -56,3 +56,10 @@ class MetricsRepository(BaseRepository[Metrics]):
             .limit(limit)
         )
         return list(result.scalars().all())
+
+    async def count_all(self) -> int:
+        """Count all metrics records."""
+        result = await self.session.execute(
+            select(func.count(Metrics.id))
+        )
+        return result.scalar()

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}{{ video.shortcode }} - Metrics{% endblock %}
+
+{% block content %}
+<div class="mb-2">
+    <a href="/videos" class="btn btn-secondary">← Back to Videos</a>
+</div>
+
+<h1 class="mb-2">{{ video.shortcode }}</h1>
+
+<div class="stats-grid mb-3">
+    <div class="stat-card">
+        <div class="stat-value">
+            {% if latest_metrics %}
+                {{ "{:,}".format(latest_metrics.view_count) }}
+            {% else %}
+                -
+            {% endif %}
+        </div>
+        <div class="stat-label">Views (Latest)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">
+            {% if latest_metrics %}
+                {{ "{:,}".format(latest_metrics.like_count) }}
+            {% else %}
+                -
+            {% endif %}
+        </div>
+        <div class="stat-label">Likes (Latest)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">
+            {% if latest_metrics %}
+                {{ latest_metrics.comment_count }}
+            {% else %}
+                -
+            {% endif %}
+        </div>
+        <div class="stat-label">Comments (Latest)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ video.metrics|length }}</div>
+        <div class="stat-label">Data Points</div>
+    </div>
+</div>
+
+<!-- Account Info -->
+<div class="card mb-3">
+    <h2>Account</h2>
+    {% if video.account %}
+        <p>
+            <a href="/accounts/{{ video.account.id }}" style="text-decoration: none; color: var(--primary-color); font-weight: 500;">
+                @{{ video.account.username }}
+            </a>
+            ({{ "{:,}".format(video.account.followers_count) }} followers)
+        </p>
+    {% else %}
+        <p class="text-muted">Unknown account</p>
+    {% endif %}
+</div>
+
+<!-- Video Info -->
+<div class="card mb-3">
+    <h2>Video Details</h2>
+    <table style="width: auto;">
+        <tr>
+            <th style="padding-right: 2rem;">Published</th>
+            <td>{{ video.published_at.strftime('%Y-%m-%d %H:%M:%S') }} UTC</td>
+        </tr>
+        <tr>
+            <th>Duration</th>
+            <td>{{ video.duration_seconds }}s</td>
+        </tr>
+        <tr>
+            <th>Video URL</th>
+            <td>
+                {% if video.video_url %}
+                <a href="{{ video.video_url }}" target="_blank" style="color: var(--primary-color);">View on Instagram</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Caption</th>
+            <td style="max-width: 600px;">{{ video.caption[:200] if video.caption else '-' }}{{ '...' if video.caption and video.caption|length > 200 else '' }}</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Metrics Chart -->
+{% if video.metrics|length > 1 %}
+<div class="card">
+    <h2>Metrics Over Time</h2>
+    <div class="chart-container">
+        <canvas id="metricsChart"></canvas>
+    </div>
+</div>
+{% elif video.metrics|length == 1 %}
+<div class="card">
+    <p class="text-muted">Only one data point available. More data is needed to display the chart.</p>
+</div>
+{% else %}
+<div class="card">
+    <p class="text-muted">No metrics data available yet. Metrics will be collected by the worker.</p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+{% if video.metrics|length > 1 %}
+<script>
+    async function loadMetrics() {
+        const response = await fetch('/videos/{{ video.id }}/metrics');
+        const data = await response.json();
+        return data;
+    }
+
+    loadMetrics().then(data => {
+        const ctx = document.getElementById('metricsChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [
+                    {
+                        label: 'Views',
+                        data: data.views,
+                        borderColor: '#0095f6',
+                        backgroundColor: 'rgba(0, 149, 246, 0.1)',
+                        yAxisID: 'y',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Likes',
+                        data: data.likes,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        yAxisID: 'y1',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Comments',
+                        data: data.comments,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        yAxisID: 'y1',
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Views'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Likes / Comments'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    },
+                }
+            }
+        });
+    });
+</script>
+{% endif %}
+{% endblock %}

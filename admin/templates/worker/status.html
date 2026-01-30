@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Worker Status - Instagram Reels Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Worker Status</h1>
+
+<div class="card">
+    <h2>Unified Worker</h2>
+    {% if worker_status.status == "running" %}
+        <div class="worker-status running" style="font-size: 1.25rem; padding: 1rem;">
+            <span class="status-indicator online"></span>
+            Running (PID: {{ worker_status.pid }})
+        </div>
+        <p class="text-muted mt-2">
+            Last heartbeat: {{ worker_status.last_heartbeat.strftime('%Y-%m-%d %H:%M:%S') }} UTC
+        </p>
+        <p class="text-muted">
+            Time since heartbeat: {{ worker_status.time_since_heartbeat }}
+        </p>
+        <div class="mt-3">
+            <span class="badge badge-success">Worker is active</span>
+        </div>
+    {% elif worker_status.status == "stopped" %}
+        <div class="worker-status stopped" style="font-size: 1.25rem; padding: 1rem;">
+            <span class="status-indicator offline"></span>
+            Stopped
+        </div>
+        <p class="text-muted mt-2">
+            Last heartbeat: {{ worker_status.last_heartbeat.strftime('%Y-%m-%d %H:%M:%S') }} UTC
+        </p>
+        <p class="text-muted">
+            Time since heartbeat: {{ worker_status.time_since_heartbeat }}
+        </p>
+        <div class="mt-3">
+            <span class="badge badge-danger">Worker is not running</span>
+        </div>
+    {% else %}
+        <div class="worker-status stopped" style="font-size: 1.25rem; padding: 1rem;">
+            <span class="status-indicator offline"></span>
+            Unknown
+        </div>
+        <p class="text-muted mt-2">
+            No heartbeat data available. The worker may have never been started.
+        </p>
+        <div class="mt-3">
+            <span class="badge badge-warning">No data</span>
+        </div>
+    {% endif %}
+</div>
+
+{% if worker_status.status != "running" %}
+<div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+    <h2>How to Start the Worker</h2>
+    <p>The unified worker process needs to be running for metrics collection and video fetching.</p>
+    <p>Run the following command in a terminal:</p>
+    <pre style="background: #f8f9fa; padding: 1rem; border-radius: 4px; overflow-x: auto;">python unified_worker.py</pre>
+    <p class="mt-2 text-muted">
+        The worker will:<br>
+        - Fetch new reels every 6 hours<br>
+        - Update metric schedules every hour<br>
+        - Process scheduled metrics every minute
+    </p>
+</div>
+{% endif %}
+
+<div class="card">
+    <h2>Worker Tasks</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Interval</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Process Metrics</strong></td>
+                <td>Every 1 minute</td>
+                <td>Execute pending scheduled metrics collection tasks</td>
+            </tr>
+            <tr>
+                <td><strong>Update Schedules</strong></td>
+                <td>Every 1 hour</td>
+                <td>Create/update metric collection schedules for videos</td>
+            </tr>
+            <tr>
+                <td><strong>Fetch Videos</strong></td>
+                <td>Every 6 hours</td>
+                <td>Fetch new reels from tracked Instagram accounts</td>
+            </tr>
+            <tr>
+                <td><strong>Heartbeat</strong></td>
+                <td>Every 30 seconds</td>
+                <td>Update worker heartbeat for status monitoring</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>Configuration</h2>
+    <p>The worker is configured via environment variables:</p>
+    <ul style="margin-left: 2rem; margin-top: 1rem;">
+        <li><code>WORKER_INTERVAL_HOURS</code>: Video fetching interval (default: 6)</li>
+        <li><code>WORKER_REELS_LIMIT</code>: Max reels to fetch per account (default: 2)</li>
+        <li><code>AUDIO_DIR</code>: Directory for audio files (default: audio)</li>
+    </ul>
+</div>
+
+<script>
+    // Auto-refresh every 10 seconds if worker is running
+    {% if worker_status.status == "running" %}
+    setTimeout(() => {
+        location.reload();
+    }, 10000);
+    {% endif %}
+</script>
+{% endblock %}

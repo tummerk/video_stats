@@ -58,10 +58,22 @@ class InstagramService:
             save_metadata=False
         )
 
+        # Set user agent to look like a real browser
+        L.context._session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://www.instagram.com/',
+            'Origin': 'https://www.instagram.com',
+            'X-Instagram-AJAX': '1',
+            'X-Requested-With': 'XMLHttpRequest',
+        })
+
         cookies = {
             "sessionid": settings.instagram_sessionid,
             "ds_user_id": settings.instagram_ds_user_id,
-            "csrftoken": settings.instagramcsrftoken,
+            "csrftoken": settings.instagram_csrftoken,
             "mid": settings.instagram_mid,
         }
 
@@ -280,14 +292,10 @@ class ReelsWorker:
             logger.info(f"Account {account_username} ensured in DB (id={account.id})")
 
             # Fetch and process reels (get_posts returns an iterator)
-            posts = profile.get_posts()
+            posts = profile.get_reels()
 
             reel_count = 0
             for post in posts:
-                # Filter only reels (video posts)
-                if not (post.is_video and post.typename == 'GraphVideo'):
-                    continue
-
                 reel_count += 1
                 if reel_count > settings.worker_reels_limit:
                     logger.info(f"Reached limit of {settings.worker_reels_limit} reels")

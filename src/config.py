@@ -18,11 +18,19 @@ class Settings(BaseSettings):
     worker_reels_limit: int = int(os.getenv("WORKER_REELS_LIMIT", "2"))
     audio_dir: str = os.getenv("AUDIO_DIR", "audio")
 
+    # Admin panel settings
+    admin_port: int = int(os.getenv("ADMIN_PORT", "8000"))
+    admin_host: str = os.getenv("ADMIN_HOST", "127.0.0.1")
+    admin_debug: bool = os.getenv("ADMIN_DEBUG", "false").lower() == "true"
+
     # Instagram cookies
-    instagram_sessionid: str = os.getenv("INSTAGRAM_SESSIONID", "")
-    instagram_ds_user_id: str = os.getenv("INSTAGRAM_DS_USER_ID", "")
-    instagramcsrftoken: str = os.getenv("INSTAGRAM_CSRFTOKEN", "")
-    instagram_mid: str = os.getenv("INSTAGRAM_MID", "")
+    instagram_sessionid: str = ""
+    instagram_ds_user_id: str = ""
+    instagram_csrftoken: str = ""
+    instagram_mid: str = ""
+    instagram_rur: str = ""
+    instagram_ig_did: str = ""
+    instagram_datr: str = ""
 
     class Config:
         env_file = ".env"

@@ -155,3 +155,45 @@ class VideoRepository(BaseRepository[Video]):
             .limit(limit)
         )
         return list(result.scalars().all())
+
+    async def get_with_latest_metrics(
+        self,
+        limit: int = 20,
+        offset: int = 0
+    ) -> List[Video]:
+        """Get videos with latest metrics."""
+        result = await self.session.execute(
+            select(Video)
+            .options(selectinload(Video.account))
+            .order_by(Video.published_at.desc())
+            .limit(limit)
+            .offset(offset)
+        )
+        return list(result.scalars().all())
+
+    async def count_all(self) -> int:
+        """Count all videos."""
+        from sqlalchemy import func
+        result = await self.session.execute(
+            select(func.count(Video.id))
+        )
+        return result.scalar()
+
+    async def count_by_account(self, account_id: int) -> int:
+        """Count videos by account."""
+        from sqlalchemy import func
+        result = await self.session.execute(
+            select(func.count(Video.id))
+            .where(Video.account_id == account_id)
+        )
+        return result.scalar()
+
+    async def get_recent(self, limit: int = 5) -> List[Video]:
+        """Get recent videos."""
+        result = await self.session.execute(
+            select(Video)
+            .options(selectinload(Video.account))
+            .order_by(Video.created_at.desc())
+            .limit(limit)
+        )
+        return list(result.scalars().all())

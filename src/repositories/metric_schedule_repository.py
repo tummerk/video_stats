@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from src.models import MetricSchedule
@@ -78,6 +78,18 @@ class MetricScheduleRepository(BaseRepository[MetricSchedule]):
         )
         return await self.get_by_id(schedule_id)
 
+    async def mark_pending(
+        self,
+        schedule_id: int
+    ) -> Optional[MetricSchedule]:
+        """Mark a schedule as pending (for retry)."""
+        await self.update(
+            schedule_id,
+            status="pending",
+            completed_at=None
+        )
+        return await self.get_by_id(schedule_id)
+
     async def get_schedules_by_video(
         self,
         video_id: int,
@@ -144,5 +156,52 @@ class MetricScheduleRepository(BaseRepository[MetricSchedule]):
                 )
             )
             .order_by(MetricSchedule.scheduled_at)
+        )
+        return list(result.scalars().all())
+
+    async def count_all(self) -> int:
+        """Count all schedules."""
+        result = await self.session.execute(
+            select(func.count(MetricSchedule.id))
+        )
+        return result.scalar()
+
+    async def count_by_status(self, status: str) -> int:
+        """Count schedules by status."""
+        result = await self.session.execute(
+            select(func.count(MetricSchedule.id))
+            .where(MetricSchedule.status == status)
+        )
+        return result.scalar()
+
+    async def get_all_with_video(
+        self,
+        limit: int = 50,
+        offset: int = 0
+    ) -> List[MetricSchedule]:
+        """Get all schedules with video relationship loaded."""
+        result = await self.session.execute(
+            select(MetricSchedule)
+            .options(selectinload(MetricSchedule.video))
+            .order_by(MetricSchedule.scheduled_at.desc())
+            .limit(limit)
+            .offset(offset)
+        )
+        return list(result.scalars().all())
+
+    async def get_by_status(
+        self,
+        status: str,
+        limit: int = 50,
+        offset: int = 0
+    ) -> List[MetricSchedule]:
+        """Get schedules by status with video relationship loaded."""
+        result = await self.session.execute(
+            select(MetricSchedule)
+            .options(selectinload(MetricSchedule.video))
+            .where(MetricSchedule.status == status)
+            .order_by(MetricSchedule.scheduled_at.desc())
+            .limit(limit)
+            .offset(offset)
         )
         return list(result.scalars().all())

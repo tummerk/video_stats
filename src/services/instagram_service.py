@@ -28,10 +28,10 @@ class InstagramService:
                 domain='.instagram.com'
             )
 
-        if settings.instagramcsrftoken:
+        if settings.instagram_csrftoken:
             self.loader.context._session.cookies.set(
                 'csrftoken',
-                settings.instagramcsrftoken,
+                settings.instagram_csrftoken,
                 domain='.instagram.com'
             )
 
