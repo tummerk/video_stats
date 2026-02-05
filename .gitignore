@@ -229,6 +229,10 @@ temp/
 target/
 # Instagrapi settings file
 instagram_settings.json
+# Client pool session files and proxies
+instagram_sessions/
+proxies.txt
+cookies/
 
 # Database
 *.sql
@@ -252,3 +256,15 @@ transcription.log
 # Temporary scripts
 test_*.py
 temp_*.py
+
+# Docker deployment
+user_pks.json
+usernames.txt
+.env.production
+docker-compose.override.yml
+
+# Deployment documentation (optional - remove if you want to track these)
+# DEPLOYMENT.md
+# ACCOUNT_INIT_GUIDE.md
+# DEPLOYMENT_CHECKLIST.md
+# README_DEPLOY.md

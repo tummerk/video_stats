@@ -1,0 +1,51 @@
+# Worker Dockerfile - CPU-only (no NVIDIA packages)
+# Simple single-stage build with CPU-only PyTorch
+
+FROM python:3.11-slim
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    gcc \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy requirements files
+COPY requirements.worker.txt .
+
+# Install Python dependencies
+# Whisper will install PyTorch automatically as a dependency
+RUN pip install --no-cache-dir -r requirements.worker.txt
+
+# Verify installation
+RUN python -c "import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())"
+
+# Copy application code
+COPY src/ ./src/
+COPY admin/ ./admin/
+COPY scripts/ ./scripts/
+COPY alembic/ ./alembic/
+COPY alembic.ini .
+COPY unified_worker.py .
+COPY docker-entrypoint.sh .
+
+# Copy requirements for reference
+COPY requirements*.txt .
+
+# Create directories for audio and logs
+RUN mkdir -p audio logs
+
+# Make entrypoint executable
+RUN chmod +x docker-entrypoint.sh
+
+# Set environment variables to force CPU usage
+ENV PYTORCH_CUDA_ALLOC_CONF=0
+ENV TORCH_CUDA_ARCH_LIST=""
+
+# Use entrypoint script
+ENTRYPOINT ["./docker-entrypoint.sh"]
+
+# Run the worker
+CMD ["python", "unified_worker.py"]

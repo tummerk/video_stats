@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15
+    container_name: instagram_tracker_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=passd
+      - POSTGRES_DB=reels
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - instagram_tracker_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d reels"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Инициализация БД (миграции + аккаунты)
+  init:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: instagram_tracker_init
+    restart: "no"  # Запустить один раз и выключить
+    environment:
+      # Database
+      - DATABASE_URL=postgresql+asyncpg://user:passd@db:5432/reels
+      # Instagram Auth (нужно для init_accounts)
+      - INSTAGRAM_SESSIONID=80323489287%3AxvPdwvGMkRUTLi%3A3%3AAYhPEoUwml7Hl61PGx2X33znEOIHjUtAJ9qEAOfLLQ
+      - INSTAGRAM_CSRFTOKEN=v5x4RvhJszAmAjdTMITIY5IaXp5yWnAH
+      # Путь к JSON с аккаунтами
+      - ACCOUNTS_JSON=/app/scripts/usernames.json
+    volumes:
+      - ./scripts:/app/scripts
+      - ./alembic:/app/alembic
+      - ./alembic.ini:/app/alembic.ini
+    networks:
+      - instagram_tracker_network
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      bash -c "
+        echo '✅ Database is ready!' &&
+        echo '🔄 Running database migrations...' &&
+        alembic upgrade head &&
+        echo '✅ Migrations complete!' &&
+        echo '📥 Initializing accounts from JSON...' &&
+        python scripts/init_accounts.py /app/scripts/usernames.json &&
+        echo '✅ Initialization complete!'
+      "
+
+  # Admin Panel
+  admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    container_name: instagram_tracker_admin
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # Database
+      - DATABASE_URL=postgresql+asyncpg://user:passd@db:5432/reels
+    volumes:
+      - ./audio:/app/audio
+      - ./logs:/app/logs
+    networks:
+      - instagram_tracker_network
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/dashboard"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Worker
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: instagram_tracker_worker
+    restart: unless-stopped
+    environment:
+      # Database
+      - DATABASE_URL=postgresql+asyncpg://user:passd@db:5432/reels
+      # Instagram Auth
+      - INSTAGRAM_SESSIONID=80323489287%3AxvPdwvGMkRUTLi%3A3%3AAYhPEoUwml7Hl61PGx2X33znEOIHjUtAJ9qEAOfLLQ
+      - INSTAGRAM_CSRFTOKEN=v5x4RvhJszAmAjdTMITIY5IaXp5yWnAH
+      # Worker settings
+      - WORKER_INTERVAL_HOURS=24
+      - WORKER_REELS_LIMIT=50
+      - AUDIO_DIR=audio
+      - TEST_MODE=false
+    volumes:
+      - ./audio:/app/audio
+      - ./logs:/app/logs
+      - ./cookies:/app/cookies
+    networks:
+      - instagram_tracker_network
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+networks:
+  instagram_tracker_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,26 @@
+# Worker Dependencies
+# Database
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# Instagram client
+instagrapi==2.0.3
+
+# Video download
+yt-dlp==2023.11.16
+
+# Task scheduling
+apscheduler==3.10.4
+
+# Configuration and validation
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Database migrations
+alembic==1.12.1
+
+# Audio transcription (Whisper)
+# PyTorch is installed first in Dockerfile (CPU-only version from PyPI)
+openai-whisper==20231117
