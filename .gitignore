@@ -205,3 +205,50 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Project-specific
+# IDE and AI tools
+.claude/
+.idea/
+
+# Audio files (downloaded and transcribed)
+*.mp3
+*.mp4
+*.m4a
+*.wav
+*.ogg
+audio/
+downloads/
+temp/
+
+# Instagram scraping
+# Instaloader session files with cookies/credentials
+*.session
+*.session-file
+*.json.gz
+target/
+# Instagrapi settings file
+instagram_settings.json
+
+# Database
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+dump.sql
+database_dumps/
+
+# OpenAI Whisper
+# Transcription cache and temporary files
+.transcriptions/
+whisper_cache/
+
+# Logs and debugging
+*.log
+debug.log
+scrape.log
+transcription.log
+
+# Temporary scripts
+test_*.py
+temp_*.py

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Bulk Import Results{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Import Results</h1>
+
+<div class="card">
+    <h2>Summary</h2>
+    <p><strong>{{ results.added }}</strong> accounts added</p>
+    <p><strong>{{ results.skipped }}</strong> accounts skipped (already exist)</p>
+    {% if results.errors %}
+    <p><strong>{{ results.errors|length }}</strong> errors:</p>
+    <ul>
+        {% for error in results.errors %}
+        <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<div class="mt-3">
+    <a href="/accounts" class="btn btn-primary">View Accounts</a>
+    <a href="/accounts/bulk" class="btn btn-secondary">Import More</a>
+</div>
+{% endblock %}

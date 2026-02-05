@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Videos - Instagram Reels Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Videos {% if account_id %}(Filtered by Account #{{ account_id }}){% endif %}</h1>
+
+<div class="card">
+    <h2>Videos ({{ total }})</h2>
+    {% if videos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Shortcode</th>
+                    <th>Account</th>
+                    <th>Published</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr>
+                    <td>{{ video.id }}</td>
+                    <td>
+                        <a href="https://www.instagram.com/reel/{{ video.shortcode }}/" target="_blank" style="text-decoration: none; color: var(--primary-color); font-weight: 500;">
+                            {{ video.shortcode }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if video.account %}
+                        <a href="/accounts/{{ video.account.id }}" style="text-decoration: none; color: var(--text-color);">
+                            @{{ video.account.username }}
+                        </a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td>{{ video.published_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="/videos/{{ video.id }}" class="btn btn-sm btn-primary">View Metrics</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if total > limit %}
+        <div class="pagination">
+            {% if offset > 0 %}
+            <a href="/videos?offset={{ offset - limit }}&limit={{ limit }}{% if account_id %}&account_id={{ account_id }}{% endif %}">Previous</a>
+            {% endif %}
+            <span>Page {{ (offset // limit) + 1 }}</span>
+            {% if offset + limit < total %}
+            <a href="/videos?offset={{ offset + limit }}&limit={{ limit }}{% if account_id %}&account_id={{ account_id }}{% endif %}">Next</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% else %}
+        <p class="text-muted">No videos found.</p>
+    {% endif %}
+</div>
+{% endblock %}

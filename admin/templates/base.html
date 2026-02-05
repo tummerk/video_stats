@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Instagram Reels Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="/" class="logo">Instagram Reels Tracker</a>
+            <nav>
+                <ul>
+                    <li><a href="/dashboard" {% if request.url.path == '/dashboard' %}class="active"{% endif %}>Dashboard</a></li>
+                    <li><a href="/accounts" {% if '/accounts' in request.url.path %}class="active"{% endif %}>Accounts</a></li>
+                    <li><a href="/videos" {% if '/videos' in request.url.path %}class="active"{% endif %}>Videos</a></li>
+                    <li><a href="/schedules" {% if '/schedules' in request.url.path %}class="active"{% endif %}>Schedules</a></li>
+                    <li><a href="/worker/status" {% if '/worker' in request.url.path %}class="active"{% endif %}>Worker</a></li>
+                    <li><a href="/logout" class="logout-btn">Выход</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

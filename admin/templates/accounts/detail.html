@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ account.username }} - Instagram Reels Tracker{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="/accounts" class="btn btn-secondary">← Back to Accounts</a>
+</div>
+
+<h1 class="mb-3">@{{ account.username }}</h1>
+
+<div class="stats-grid mb-3">
+    <div class="stat-card">
+        <div class="stat-value">{{ "{:,}".format(account.followers_count) }}</div>
+        <div class="stat-label">Followers</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ videos|length }}</div>
+        <div class="stat-label">Videos Tracked</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Videos</h2>
+    {% if videos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Shortcode</th>
+                    <th>Published</th>
+                    <th>Views (Latest)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr>
+                    <td>{{ video.shortcode }}</td>
+                    <td>{{ video.published_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        {% if video.metrics %}
+                            {{ "{:,}".format(video.metrics[-1].view_count) }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/videos/{{ video.id }}" class="btn btn-sm btn-secondary">View Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">No videos found for this account.</p>
+    {% endif %}
+</div>
+{% endblock %}

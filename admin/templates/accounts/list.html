@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Accounts - Instagram Reels Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Accounts</h1>
+
+<!-- Add Account Form -->
+<div class="card">
+    <h2>Add Account</h2>
+    <form method="post" action="/accounts/add" style="display: flex; gap: 1rem; align-items: flex-end;">
+        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+            <label for="username">Instagram Username</label>
+            <input
+                type="text"
+                name="username"
+                id="username"
+                class="form-control"
+                placeholder="e.g. instagram"
+                required
+            >
+        </div>
+        <button type="submit" class="btn btn-primary">Add Account</button>
+        <a href="/accounts/bulk" class="btn btn-secondary">Bulk Import</a>
+    </form>
+</div>
+
+<!-- Accounts Table -->
+<div class="card">
+    <h2>Tracked Accounts ({{ total }})</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Followers</th>
+                <th>Videos</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ account.id }}</td>
+                <td>
+                    <a href="{{ account.profile_url }}" target="_blank" style="font-weight: 500; text-decoration: none; color: var(--primary-color);">
+                        @{{ account.username }}
+                    </a>
+                </td>
+                <td>{{ "{:,}".format(account.followers_count) }}</td>
+                <td>{{ account.video_count }}</td>
+                <td>
+                    <a href="/accounts/{{ account.id }}" class="btn btn-sm btn-secondary">View Videos</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if total > limit %}
+    <div class="pagination">
+        {% if offset > 0 %}
+        <a href="/accounts?offset={{ offset - limit }}&limit={{ limit }}">Previous</a>
+        {% endif %}
+        <span>Page {{ (offset // limit) + 1 }}</span>
+        {% if offset + limit < total %}
+        <a href="/accounts?offset={{ offset + limit }}&limit={{ limit }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

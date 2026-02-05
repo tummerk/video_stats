@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Bulk Import Accounts{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Bulk Import Accounts</h1>
+
+<div class="card">
+    <h2>Add Multiple Instagram Accounts</h2>
+    <form method="post" action="/accounts/bulk">
+        <div class="form-group">
+            <label for="usernames_data">Usernames</label>
+            <p class="text-muted">
+                Enter one username per line, or separate with commas.<br>
+                Example:<br>
+                <code>instagram</code><br>
+                <code>facebook</code><br>
+                <code>twitter</code>
+            </p>
+            <textarea
+                name="usernames_data"
+                id="usernames_data"
+                class="form-control"
+                rows="20"
+                placeholder="username1&#10;username2&#10;username3"
+                required
+            ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Import Accounts</button>
+        <a href="/accounts" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

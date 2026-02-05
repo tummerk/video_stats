@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Schedules - Instagram Reels Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Metric Schedules {% if status_filter %}({{ status_filter }}){% endif %}</h1>
+
+<!-- Filter Tabs -->
+<div class="card mb-3">
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="/schedules" class="btn {% if not status_filter %}btn-primary{% else %}btn-secondary{% endif %}">
+            All ({{ total }})
+        </a>
+        <a href="/schedules?status=pending" class="btn {% if status_filter == 'pending' %}btn-primary{% else %}btn-secondary{% endif %}">
+            Pending
+        </a>
+        <a href="/schedules?status=completed" class="btn {% if status_filter == 'completed' %}btn-primary{% else %}btn-secondary{% endif %}">
+            Completed
+        </a>
+        <a href="/schedules?status=failed" class="btn {% if status_filter == 'failed' %}btn-primary{% else %}btn-secondary{% endif %}">
+            Failed
+        </a>
+    </div>
+</div>
+
+<!-- Schedules Table -->
+<div class="card">
+    <h2>Schedules</h2>
+    {% if schedules %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Video</th>
+                    <th>Type</th>
+                    <th>Scheduled</th>
+                    <th>Status</th>
+                    <th>Completed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                <tr>
+                    <td>{{ schedule.id }}</td>
+                    <td>
+                        {% if schedule.video %}
+                        <a href="/videos/{{ schedule.video.id }}" style="text-decoration: none; color: var(--primary-color);">
+                            {{ schedule.video.shortcode }}
+                        </a>
+                        {% else %}
+                        <span class="text-muted">Video #{{ schedule.video_id }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ schedule.schedule_type }}</td>
+                    <td>{{ schedule.scheduled_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        {% if schedule.status == 'pending' %}
+                            <span class="badge badge-warning">Pending</span>
+                        {% elif schedule.status == 'completed' %}
+                            <span class="badge badge-success">Completed</span>
+                        {% elif schedule.status == 'failed' %}
+                            <span class="badge badge-danger">Failed</span>
+                        {% else %}
+                            <span class="badge badge-info">{{ schedule.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if schedule.completed_at %}
+                            {{ schedule.completed_at.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if schedule.video %}
+                            <a href="/videos/{{ schedule.video.id }}" class="btn btn-sm btn-secondary">View Video</a>
+                        {% endif %}
+                        {% if schedule.status == 'failed' %}
+                            <form method="post" action="/schedules/{{ schedule.id }}/retry" style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-primary">Retry</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if total > limit %}
+        <div class="pagination">
+            {% if offset > 0 %}
+            <a href="/schedules?offset={{ offset - limit }}&limit={{ limit }}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
+            {% endif %}
+            <span>Page {{ (offset // limit) + 1 }}</span>
+            {% if offset + limit < total %}
+            <a href="/schedules?offset={{ offset + limit }}&limit={{ limit }}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% else %}
+        <p class="text-muted">No schedules found.</p>
+    {% endif %}
+</div>
+{% endblock %}

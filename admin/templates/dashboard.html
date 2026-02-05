@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Instagram Reels Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Dashboard</h1>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.total_accounts }}</div>
+        <div class="stat-label">Accounts</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.total_videos }}</div>
+        <div class="stat-label">Videos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.total_metrics }}</div>
+        <div class="stat-label">Metrics Records</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.pending_schedules }}</div>
+        <div class="stat-label">Pending Schedules</div>
+    </div>
+</div>
+
+<!-- Worker Status -->
+<div class="card">
+    <h2>Worker Status</h2>
+    {% if worker_status.status == "running" %}
+        <div class="worker-status running">
+            <span class="status-indicator online"></span>
+            Running (PID: {{ worker_status.pid }})
+        </div>
+        <p class="text-muted mt-2">
+            Last heartbeat: {{ worker_status.last_heartbeat.strftime('%Y-%m-%d %H:%M:%S') }} UTC
+        </p>
+    {% elif worker_status.status == "stopped" %}
+        <div class="worker-status stopped">
+            <span class="status-indicator offline"></span>
+            Stopped
+        </div>
+        <p class="text-muted mt-2">
+            Last heartbeat: {{ worker_status.last_heartbeat.strftime('%Y-%m-%d %H:%M:%S') }} UTC
+        </p>
+        <a href="/worker/status" class="btn btn-primary mt-2">View Worker Status</a>
+    {% else %}
+        <div class="worker-status stopped">
+            <span class="status-indicator offline"></span>
+            Unknown (No heartbeat data)
+        </div>
+        <p class="text-muted mt-2">
+            Make sure the unified worker is running.
+        </p>
+        <a href="/worker/status" class="btn btn-primary mt-2">View Worker Status</a>
+    {% endif %}
+</div>
+
+<!-- Schedule Status -->
+<div class="card">
+    <h2>Schedule Status</h2>
+    <div class="stats-grid" style="margin-bottom: 0;">
+        <div class="stat-card" style="padding: 1rem;">
+            <div class="stat-value" style="font-size: 1.5rem;">{{ stats.pending_schedules }}</div>
+            <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem;">
+            <div class="stat-value" style="font-size: 1.5rem; color: var(--success-color);">{{ stats.completed_schedules }}</div>
+            <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem;">
+            <div class="stat-value" style="font-size: 1.5rem; color: var(--danger-color);">{{ stats.failed_schedules }}</div>
+            <div class="stat-label">Failed</div>
+        </div>
+    </div>
+    {% if stats.failed_schedules > 0 %}
+        <a href="/schedules?status=failed" class="btn btn-primary mt-2">View Failed Schedules</a>
+    {% endif %}
+</div>
+
+<!-- Recent Videos -->
+<div class="card">
+    <h2>Recent Videos</h2>
+    {% if recent_videos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Shortcode</th>
+                    <th>Account</th>
+                    <th>Published</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in recent_videos %}
+                <tr>
+                    <td>{{ video.shortcode }}</td>
+                    <td>{{ video.account.username if video.account else '-' }}</td>
+                    <td>{{ video.published_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="/videos/{{ video.id }}" class="btn btn-sm btn-secondary">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">No videos found.</p>
+    {% endif %}
+</div>
+{% endblock %}
