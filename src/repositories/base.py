@@ -1,5 +1,5 @@
 from typing import Generic, Type, TypeVar, Optional, List
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.database.base import Base
 
@@ -39,6 +39,13 @@ class BaseRepository(Generic[ModelType]):
             select(self.model).limit(limit).offset(offset)
         )
         return list(result.scalars().all())
+
+    async def count_all(self) -> int:
+        """Count all records."""
+        result = await self.session.execute(
+            select(func.count()).select_from(self.model)
+        )
+        return result.scalar() or 0
 
     async def update(self, id: int, **kwargs) -> Optional[ModelType]:
         """Update a record by ID."""

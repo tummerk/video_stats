@@ -1,0 +1,291 @@
+{
+  "source_url": "https://www.instagram.com/reels/DT_c0G3iAHp/",
+  "video_url": "https://scontent-ams2-1.cdninstagram.com/o1/v/t2/f2/m86/AQMefbg8jZdcyAmNzD-iLay2uOrW-LT9NPcNmVfQQRHvNAUceCjIqgS1Bd3pnWF4ZDNvIrALscF3IBBrLjqgkdaABsMKHFyvtlltxEs.mp4?_nc_cat=103&_nc_sid=5e9851&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_ohc=a1g0dDsSthYQ7kNvwGsmSt_&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5JTlNUQUdSQU0uQ0xJUFMuQzMuNTc2LmRhc2hfYmFzZWxpbmVfMV92MSIsInhwdl9hc3NldF9pZCI6MTc4NDc3NDk3NTQ2NTA1MTEsImFzc2V0X2FnZV9kYXlzIjo4LCJ2aV91c2VjYXNlX2lkIjoxMDA5OSwiZHVyYXRpb25fcyI6MTgsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&_nc_zt=28&vs=da69a5730dedca92&_nc_vs=HBksFQIYUmlnX3hwdl9yZWVsc19wZXJtYW5lbnRfc3JfcHJvZC85NzQwNTk0QkFDNzY3RTgzQTIxRDJBRTg4ODZBQjA4Rl92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYUWlnX3hwdl9wbGFjZW1lbnRfcGVybWFuZW50X3YyL0Q4NDc0ODcyNUExNkRGQkRFM0RCMzA4RDM1QkM2QzgzX2F1ZGlvX2Rhc2hpbml0Lm1wNBUCAsgBEgAoABgAGwKIB3VzZV9vaWwBMRJwcm9ncmVzc2l2ZV9yZWNpcGUBMRUAACae_tOC4pu0PxUCKAJDMywXQDIUeuFHrhQYEmRhc2hfYmFzZWxpbmVfMV92MREAdf4HZeadAQA&oh=00_AfuUlAR6ep_VErEgAzyQSy8bijWIxzOhfpBTsSXZ8WAdqA&oe=698545D4",
+  "audio_filename": "downloaded_audio.mp3",
+  "yt_dlp_info": {
+    "id": "DT_c0G3iAHp",
+    "formats": [
+      {
+        "format_id": "dash-728300246774397a",
+        "manifest_url": null,
+        "ext": "m4a",
+        "width": null,
+        "height": null,
+        "tbr": 83.19,
+        "asr": 44100,
+        "fps": null,
+        "language": null,
+        "format_note": "DASH audio",
+        "filesize": null,
+        "container": "m4a_dash",
+        "vcodec": "none",
+        "acodec": "mp4a.40.5",
+        "dynamic_range": null,
+        "url": "https://scontent-ams2-1.cdninstagram.com/o1/v/t2/f2/m78/AQNjHlzTRQFnVDWr5KXTCA4wz-lvM3a2LuI8m0d4YB2kbvHbJaoAWV9F-wlP__yYIjAWcNnnbDSjg0Ec_I9VrZ0toyNjTtMRZlNlVBg.mp4?_nc_cat=108&_nc_sid=9ca052&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_ohc=R1Pd5wQ-rKsQ7kNvwHbg_S3&efg=eyJ2ZW5jb2RlX3RhZyI6ImlnLXhwdmRzLmNsaXBzLmMyLUMzLmRhc2hfbG5faGVhYWNfdmJyM19hdWRpbyIsInZpZGVvX2lkIjpudWxsLCJvaWxfdXJsZ2VuX2FwcF9pZCI6OTM2NjE5NzQzMzkyNDU5LCJjbGllbnRfbmFtZSI6ImlnIiwieHB2X2Fzc2V0X2lkIjoxNzg0Nzc0OTc1NDY1MDUxMSwiYXNzZXRfYWdlX2RheXMiOjgsInZpX3VzZWNhc2VfaWQiOjEwMDk5LCJkdXJhdGlvbl9zIjoxOCwiYml0cmF0ZSI6ODM2MjAsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&_nc_zt=28&oh=00_Afsn0fiU6Ovun4cKc5VK8zO6QfTptRx2azNTQ-Xi-WBW3w&oe=69856885",
+        "manifest_stream_number": 0,
+        "is_dash_periods": true,
+        "protocol": "https",
+        "audio_ext": "m4a",
+        "video_ext": "none",
+        "vbr": 0,
+        "abr": 83.19,
+        "resolution": "audio only",
+        "aspect_ratio": null,
+        "filesize_approx": 188102,
+        "http_headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "en-us,en;q=0.5",
+          "Sec-Fetch-Mode": "navigate",
+          "Referer": "https://www.instagram.com/"
+        },
+        "format": "dash-728300246774397a - audio only (DASH audio)"
+      },
+      {
+        "format_id": "dash-916243650849380v",
+        "manifest_url": null,
+        "ext": "mp4",
+        "width": 360,
+        "height": 360,
+        "tbr": 176.591,
+        "asr": null,
+        "fps": null,
+        "language": null,
+        "format_note": "DASH video",
+        "filesize": null,
+        "container": "mp4_dash",
+        "vcodec": "vp09.00.21.08.00.01.01.01.00",
+        "acodec": "none",
+        "dynamic_range": "SDR",
+        "url": "https://scontent-ams2-1.cdninstagram.com/o1/v/t2/f2/m367/AQP4LJSjGZdqWH6sZVG9XkfRqWm0Cejn8jkKBiURUISSIDQCgL2oOsxkj_1_oMcBd1PHh_H8B82z52sJUF84DqOn6rNsJ_5WPCFYytzVGpnz2A.mp4?_nc_cat=102&_nc_sid=9ca052&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_ohc=kw9heonYuVYQ7kNvwHHPYHf&efg=eyJ2ZW5jb2RlX3RhZyI6ImlnLXhwdmRzLmNsaXBzLmMyLUMzLmRhc2hfdnA5LWJhc2ljLWdlbjJfMzYwcCIsInZpZGVvX2lkIjpudWxsLCJvaWxfdXJsZ2VuX2FwcF9pZCI6OTM2NjE5NzQzMzkyNDU5LCJjbGllbnRfbmFtZSI6ImlnIiwieHB2X2Fzc2V0X2lkIjoxNzg0Nzc0OTc1NDY1MDUxMSwiYXNzZXRfYWdlX2RheXMiOjgsInZpX3VzZWNhc2VfaWQiOjEwMDk5LCJkdXJhdGlvbl9zIjoxOCwiYml0cmF0ZSI6MTc2NTkxLCJ1cmxnZW5fc291cmNlIjoid3d3In0%3D&ccb=17-1&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&_nc_zt=28&oh=00_AfvRwPz_Z0mlytHu0JHKWeYRws18zl36Wgt175rmIc3w8Q&oe=69895A26",
+        "manifest_stream_number": 0,
+        "is_dash_periods": true,
+        "protocol": "https",
+        "video_ext": "mp4",
+        "audio_ext": "none",
+        "abr": 0,
+        "vbr": 176.591,
+        "resolution": "360x360",
+        "aspect_ratio": 1.0,
+        "filesize_approx": 399294,
+        "http_headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "en-us,en;q=0.5",
+          "Sec-Fetch-Mode": "navigate",
+          "Referer": "https://www.instagram.com/"
+        },
+        "format": "dash-916243650849380v - 360x360 (DASH video)"
+      },
+      {
+        "format_id": "dash-874060378822770v",
+        "manifest_url": null,
+        "ext": "mp4",
+        "width": 576,
+        "height": 576,
+        "tbr": 505.07,
+        "asr": null,
+        "fps": null,
+        "language": null,
+        "format_note": "DASH video",
+        "filesize": null,
+        "container": "mp4_dash",
+        "vcodec": "vp09.00.30.08.00.01.01.01.00",
+        "acodec": "none",
+        "dynamic_range": "SDR",
+        "url": "https://scontent-ams2-1.cdninstagram.com/o1/v/t2/f2/m367/AQOcRWP4n4_AoVpedE_c4q_oCAolI35wrH4EJfL9bkPUHNtzrySOcqD_xegJhFW7BudZhR6PtA39AFqPkBuZYJtu0v-nzrxnKhFF0hfOgwaRRg.mp4?_nc_cat=111&_nc_sid=9ca052&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_ohc=TWmAaEdK9v4Q7kNvwG18OGd&efg=eyJ2ZW5jb2RlX3RhZyI6ImlnLXhwdmRzLmNsaXBzLmMyLUMzLmRhc2hfdnA5LWJhc2ljLWdlbjJfNzIwcCIsInZpZGVvX2lkIjpudWxsLCJvaWxfdXJsZ2VuX2FwcF9pZCI6OTM2NjE5NzQzMzkyNDU5LCJjbGllbnRfbmFtZSI6ImlnIiwieHB2X2Fzc2V0X2lkIjoxNzg0Nzc0OTc1NDY1MDUxMSwiYXNzZXRfYWdlX2RheXMiOjgsInZpX3VzZWNhc2VfaWQiOjEwMDk5LCJkdXJhdGlvbl9zIjoxOCwiYml0cmF0ZSI6NTA1MDcwLCJ1cmxnZW5fc291cmNlIjoid3d3In0%3D&ccb=17-1&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&_nc_zt=28&oh=00_AfshCbn9yIknDhda01XjnBc-aRxBoWwmh5MqD9qTg8lD4w&oe=69896541",
+        "manifest_stream_number": 0,
+        "is_dash_periods": true,
+        "protocol": "https",
+        "video_ext": "mp4",
+        "audio_ext": "none",
+        "abr": 0,
+        "vbr": 505.07,
+        "resolution": "576x576",
+        "aspect_ratio": 1.0,
+        "filesize_approx": 1142026,
+        "http_headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "en-us,en;q=0.5",
+          "Sec-Fetch-Mode": "navigate",
+          "Referer": "https://www.instagram.com/"
+        },
+        "format": "dash-874060378822770v - 576x576 (DASH video)"
+      },
+      {
+        "url": "https://scontent-ams2-1.cdninstagram.com/o1/v/t2/f2/m86/AQMefbg8jZdcyAmNzD-iLay2uOrW-LT9NPcNmVfQQRHvNAUceCjIqgS1Bd3pnWF4ZDNvIrALscF3IBBrLjqgkdaABsMKHFyvtlltxEs.mp4?_nc_cat=103&_nc_sid=5e9851&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_ohc=a1g0dDsSthYQ7kNvwGsmSt_&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5JTlNUQUdSQU0uQ0xJUFMuQzMuNTc2LmRhc2hfYmFzZWxpbmVfMV92MSIsInhwdl9hc3NldF9pZCI6MTc4NDc3NDk3NTQ2NTA1MTEsImFzc2V0X2FnZV9kYXlzIjo4LCJ2aV91c2VjYXNlX2lkIjoxMDA5OSwiZHVyYXRpb25fcyI6MTgsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&_nc_zt=28&vs=da69a5730dedca92&_nc_vs=HBksFQIYUmlnX3hwdl9yZWVsc19wZXJtYW5lbnRfc3JfcHJvZC85NzQwNTk0QkFDNzY3RTgzQTIxRDJBRTg4ODZBQjA4Rl92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYUWlnX3hwdl9wbGFjZW1lbnRfcGVybWFuZW50X3YyL0Q4NDc0ODcyNUExNkRGQkRFM0RCMzA4RDM1QkM2QzgzX2F1ZGlvX2Rhc2hpbml0Lm1wNBUCAsgBEgAoABgAGwKIB3VzZV9vaWwBMRJwcm9ncmVzc2l2ZV9yZWNpcGUBMRUAACae_tOC4pu0PxUCKAJDMywXQDIUeuFHrhQYEmRhc2hfYmFzZWxpbmVfMV92MREAdf4HZeadAQA&oh=00_AfuUlAR6ep_VErEgAzyQSy8bijWIxzOhfpBTsSXZ8WAdqA&oe=698545D4",
+        "width": 640,
+        "height": 640,
+        "protocol": "https",
+        "ext": "mp4",
+        "video_ext": "mp4",
+        "audio_ext": "none",
+        "vbr": null,
+        "abr": null,
+        "tbr": null,
+        "resolution": "640x640",
+        "dynamic_range": "SDR",
+        "aspect_ratio": 1.0,
+        "filesize_approx": null,
+        "http_headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "en-us,en;q=0.5",
+          "Sec-Fetch-Mode": "navigate",
+          "Referer": "https://www.instagram.com/"
+        },
+        "format_id": "3",
+        "format": "3 - 640x640"
+      }
+    ],
+    "title": "Video by _.joelt_13",
+    "description": "1997년 개봉한 영화 Titanic은 잭과 로즈의 운명적인 사랑을 통해 비극 속에서도 오래 남는 감정의 깊이를 보여주는 작품입니다. 화려한 연출보다 인물의 감정에 더 집중한 제임스 카메론 감독의 스타일은 지금 다시 봐도 묘하게 가슴을 울리죠. 배가 침몰하는 장면이 아닌, 두 사람이 서로를 바라보던 순간들이 더 강하게 기억에 남는 영화이기도 합니다.\n이 감정을 완성해주는 곡이 바로 셀린 디온의 *“My Heart Will Go On”*입니다. 처음 들으면 잔잔한데, 어느 순간 자연스럽게 가슴이 벅차오르는 느낌을 줍니다. 특히 후반부의 고조되는 보컬은 영화 속 잭과 로즈의 마지막 장면과 겹쳐지면서 괜히 마음이 서늘해지기도 하고요. 많은 분들이 “이 노래가 나오면 왜 그 장면이 자동으로 떠오르는지 모르겠다”고 말하는데, 그만큼 영화와 음악이 자연스럽게 얽혀 있는 곡입니다.\n1998년 아카데미 주제가상을 비롯해 여러 상을 휩쓴 건 단지 인기 때문만은 아닙니다. 누가 들어도 ‘한 시대의 감정’을 담고 있다는 게 느껴지고, 시간이 지나도 촌스러워지지 않는 힘이 있거든요. 오랜만에 다시 들으면, 괜히 조용한 밤에 혼자 영화 한 편을 끝낸 것 같은 기분이 듭니다.\n흥미롭게도 이 노래는 처음부터 만들어진 게 아니에요. 제임스 호너가 영화 스코어를 작업하다가 엔딩 크레딧에 보컬 버전을 넣고 싶어해서 급히 만든 곡인데, 셀린 디온 본인은 데모를 듣고 “별로 매력적이지 않다”고 거절하려 했대요. 남편이자 매니저였던 르네 안젤릴이 설득해서 한 번만 녹음해보자고 해서 겨우 완성됐죠. 그런데 그 한 번의 녹음으로 역사적인 히트곡이 탄생한 거예요. 호너는 원래 노르웨이 가수 시셀을 염두에 뒀지만, 결국 디온의 목소리가 영화와 완벽하게 맞아떨어졌습니다.\n이 노래는 단순히 타이타닉의 테마를 넘어, 사랑과 상실의 보편적인 감정을 상징하는 문화 아이콘이 됐어요. 1998년 그래미에서 올해의 레코드상과 올해의 노래상을 포함해 4관왕을 차지했고, 전 세계적으로 1,800만 장 이상 팔리며 디온의 시그니처 송이 됐죠. 최근에는 2025년 미국 의회도서관 국가 녹음 등록부에 등재되면서 ‘문화적으로 중요한 작품’으로 공식 인정받았습니다. 심지어 팬데믹 기간에는 이웃들을 위해 발코니에서 피아노로 연주하는 사람들도 있었고, 스포츠 하이라이트에 키 체인지 부분을 삽입하는 밈까지 생길 정도로 대중문화에 깊이 스며들었어요.#사실 #지식 #기술 #과학#트렌드",
+    "duration": 18.089,
+    "timestamp": 1769468113,
+    "uploader_id": "59742291543",
+    "uploader": "c:\\user\\joel",
+    "channel": "_.joelt_13",
+    "like_count": 3368,
+    "comment_count": 83,
+    "comments": [
+      {
+        "author": "trap_story2",
+        "author_id": "64153083316",
+        "id": "18119999530583295",
+        "text": "NLE Choppa said something",
+        "timestamp": 1770199724
+      },
+      {
+        "author": "brodamatus",
+        "author_id": "63152194948",
+        "id": "18108706723602552",
+        "text": "",
+        "timestamp": 1770154005
+      },
+      {
+        "author": "flamekidd14",
+        "author_id": "78577424854",
+        "id": "17857972575545582",
+        "text": "",
+        "timestamp": 1770083450
+      },
+      {
+        "author": "anan_mutfakta",
+        "author_id": "71288126068",
+        "id": "18093235009974925",
+        "text": "",
+        "timestamp": 1770058232
+      },
+      {
+        "author": "toilet_nuker_revival",
+        "author_id": "68620120740",
+        "id": "18080322260211532",
+        "text": "",
+        "timestamp": 1770057514
+      },
+      {
+        "author": "801_andrew_",
+        "author_id": "66385447489",
+        "id": "18387697141150154",
+        "text": "",
+        "timestamp": 1770043652
+      },
+      {
+        "author": "_h_i_r_a_d_11",
+        "author_id": "12060972956",
+        "id": "18153220102439051",
+        "text": "",
+        "timestamp": 1770036526
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.2885-15/622803181_1310306717598696_8674472770126828895_n.jpg?stp=dst-jpg_e15_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42NDB4NjQwLnNkci5mNzE4NzguZGVmYXVsdF9jb3Zlcl9mcmFtZS5jMiJ9&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_cat=100&_nc_oc=Q6cZ2QEQ_WjHhDR5-webs8hVMpB75fYJmiD_2H8pMDvoc1uQMPufzuWIQJz-ZEpPn9ctmQw&_nc_ohc=MzTQeFwRUNEQ7kNvwHVAFgr&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AfvPwtzyvVtCQIOBt1MjJXLYExSpcI78r6AkEusPHAlt4Q&oe=6989397D&_nc_sid=d885a2",
+        "width": 640,
+        "height": 640,
+        "id": "0",
+        "resolution": "640x640"
+      },
+      {
+        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.2885-15/622803181_1310306717598696_8674472770126828895_n.jpg?stp=dst-jpg_e15_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42NDB4NjQwLnNkci5mNzE4NzguZGVmYXVsdF9jb3Zlcl9mcmFtZS5jMiJ9&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_cat=100&_nc_oc=Q6cZ2QEQ_WjHhDR5-webs8hVMpB75fYJmiD_2H8pMDvoc1uQMPufzuWIQJz-ZEpPn9ctmQw&_nc_ohc=MzTQeFwRUNEQ7kNvwHVAFgr&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AfvPwtzyvVtCQIOBt1MjJXLYExSpcI78r6AkEusPHAlt4Q&oe=6989397D&_nc_sid=d885a2",
+        "width": 750,
+        "height": 750,
+        "id": "1",
+        "resolution": "750x750"
+      },
+      {
+        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.2885-15/622803181_1310306717598696_8674472770126828895_n.jpg?stp=dst-jpg_e15_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42NDB4NjQwLnNkci5mNzE4NzguZGVmYXVsdF9jb3Zlcl9mcmFtZS5jMiJ9&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_cat=100&_nc_oc=Q6cZ2QEQ_WjHhDR5-webs8hVMpB75fYJmiD_2H8pMDvoc1uQMPufzuWIQJz-ZEpPn9ctmQw&_nc_ohc=MzTQeFwRUNEQ7kNvwHVAFgr&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AfvPwtzyvVtCQIOBt1MjJXLYExSpcI78r6AkEusPHAlt4Q&oe=6989397D&_nc_sid=d885a2",
+        "width": 1080,
+        "height": 1080,
+        "id": "2",
+        "resolution": "1080x1080"
+      }
+    ],
+    "http_headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "en-us,en;q=0.5",
+      "Sec-Fetch-Mode": "navigate",
+      "Referer": "https://www.instagram.com/"
+    },
+    "webpage_url": "https://www.instagram.com/reels/DT_c0G3iAHp/",
+    "original_url": "https://www.instagram.com/reels/DT_c0G3iAHp/",
+    "webpage_url_basename": "DT_c0G3iAHp",
+    "webpage_url_domain": "instagram.com",
+    "extractor": "Instagram",
+    "extractor_key": "Instagram",
+    "playlist": null,
+    "playlist_index": null,
+    "thumbnail": "https://scontent-ams2-1.cdninstagram.com/v/t51.2885-15/622803181_1310306717598696_8674472770126828895_n.jpg?stp=dst-jpg_e15_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42NDB4NjQwLnNkci5mNzE4NzguZGVmYXVsdF9jb3Zlcl9mcmFtZS5jMiJ9&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_cat=100&_nc_oc=Q6cZ2QEQ_WjHhDR5-webs8hVMpB75fYJmiD_2H8pMDvoc1uQMPufzuWIQJz-ZEpPn9ctmQw&_nc_ohc=MzTQeFwRUNEQ7kNvwHVAFgr&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AfvPwtzyvVtCQIOBt1MjJXLYExSpcI78r6AkEusPHAlt4Q&oe=6989397D&_nc_sid=d885a2",
+    "display_id": "DT_c0G3iAHp",
+    "fulltitle": "Video by _.joelt_13",
+    "duration_string": "18",
+    "upload_date": "20260126",
+    "release_year": null,
+    "requested_subtitles": null,
+    "_has_drm": null,
+    "epoch": 1770223427,
+    "url": "https://scontent-ams2-1.cdninstagram.com/o1/v/t2/f2/m86/AQMefbg8jZdcyAmNzD-iLay2uOrW-LT9NPcNmVfQQRHvNAUceCjIqgS1Bd3pnWF4ZDNvIrALscF3IBBrLjqgkdaABsMKHFyvtlltxEs.mp4?_nc_cat=103&_nc_sid=5e9851&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_ohc=a1g0dDsSthYQ7kNvwGsmSt_&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5JTlNUQUdSQU0uQ0xJUFMuQzMuNTc2LmRhc2hfYmFzZWxpbmVfMV92MSIsInhwdl9hc3NldF9pZCI6MTc4NDc3NDk3NTQ2NTA1MTEsImFzc2V0X2FnZV9kYXlzIjo4LCJ2aV91c2VjYXNlX2lkIjoxMDA5OSwiZHVyYXRpb25fcyI6MTgsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=L0YWf-xr8YZ6bCqwMzdcpA&_nc_zt=28&vs=da69a5730dedca92&_nc_vs=HBksFQIYUmlnX3hwdl9yZWVsc19wZXJtYW5lbnRfc3JfcHJvZC85NzQwNTk0QkFDNzY3RTgzQTIxRDJBRTg4ODZBQjA4Rl92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYUWlnX3hwdl9wbGFjZW1lbnRfcGVybWFuZW50X3YyL0Q4NDc0ODcyNUExNkRGQkRFM0RCMzA4RDM1QkM2QzgzX2F1ZGlvX2Rhc2hpbml0Lm1wNBUCAsgBEgAoABgAGwKIB3VzZV9vaWwBMRJwcm9ncmVzc2l2ZV9yZWNpcGUBMRUAACae_tOC4pu0PxUCKAJDMywXQDIUeuFHrhQYEmRhc2hfYmFzZWxpbmVfMV92MREAdf4HZeadAQA&oh=00_AfuUlAR6ep_VErEgAzyQSy8bijWIxzOhfpBTsSXZ8WAdqA&oe=698545D4",
+    "width": 640,
+    "height": 640,
+    "protocol": "https",
+    "ext": "mp4",
+    "video_ext": "mp4",
+    "audio_ext": "none",
+    "vbr": null,
+    "abr": null,
+    "tbr": null,
+    "resolution": "640x640",
+    "dynamic_range": "SDR",
+    "aspect_ratio": 1.0,
+    "filesize_approx": null,
+    "format_id": "3",
+    "format": "3 - 640x640"
+  },
+  "whisper_result": {
+    "text": " Love you guys too",
+    "segments": [
+      {
+        "id": 0,
+        "seek": 0,
+        "start": 0.0,
+        "end": 17.8,
+        "text": " Love you guys too",
+        "tokens": [
+          50364,
+          5956,
+          291,
+          1074,
+          886,
+          51254
+        ],
+        "temperature": 1.0,
+        "avg_logprob": -3.7532176971435547,
+        "compression_ratio": 0.68,
+        "no_speech_prob": 0.4008297026157379
+      }
+    ],
+    "language": "en"
+  }
+}

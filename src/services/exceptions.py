@@ -35,3 +35,9 @@ class NetworkError(InstagramServiceError):
     """Raised when network error occurs."""
 
     pass
+
+
+class AccountAlreadyProcessedError(InstagramServiceError):
+    """Raised when account has recent videos in database and should be skipped."""
+
+    pass

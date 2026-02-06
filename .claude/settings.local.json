@@ -34,7 +34,15 @@
       "Bash(alembic current:*)",
       "Bash(test:*)",
       "Bash(alembic downgrade:*)",
-      "Bash(pip show:*)"
+      "Bash(pip show:*)",
+      "Bash(findstr:*)",
+      "Bash(alembic history:*)",
+      "Bash(pg_isready:*)",
+      "Bash(psql:*)",
+      "Bash(docker inspect:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose build:*)"
     ]
   }
 }

@@ -6,10 +6,9 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
 from admin.dependencies import get_db
-from src.models import WorkerHeartbeat
+from admin.services.worker_monitor import WorkerMonitor
 
 router = APIRouter()
 templates = Jinja2Templates(directory="admin/templates")
@@ -17,30 +16,19 @@ templates = Jinja2Templates(directory="admin/templates")
 
 async def get_worker_status(db: AsyncSession) -> dict:
     """Get worker status from heartbeat table."""
-    result = await db.execute(
-        select(WorkerHeartbeat).where(
-            WorkerHeartbeat.worker_name == "unified_worker"
-        )
-    )
-    heartbeat = result.scalar_one_or_none()
+    status_data = await WorkerMonitor.get_worker_status(db, worker_name="unified_worker")
 
-    if not heartbeat:
-        return {
-            "status": "unknown",
-            "last_heartbeat": None,
-            "uptime": None,
-            "pid": None,
-        }
-
-    # Check if last heartbeat is within 2 minutes
-    time_since_heartbeat = datetime.now(timezone.utc) - heartbeat.last_heartbeat
-    is_running = time_since_heartbeat < timedelta(minutes=2)
+    # Format time_since_heartbeat for display
+    if status_data["time_since_heartbeat"]:
+        time_str = str(status_data["time_since_heartbeat"]).split('.')[0]
+    else:
+        time_str = None
 
     return {
-        "status": "running" if is_running else "stopped",
-        "last_heartbeat": heartbeat.last_heartbeat,
-        "time_since_heartbeat": str(time_since_heartbeat).split('.')[0],
-        "pid": heartbeat.pid,
+        "status": status_data["status"],
+        "last_heartbeat": status_data["last_heartbeat"],
+        "time_since_heartbeat": time_str,
+        "pid": status_data["pid"],
     }
 
 

@@ -1,272 +1,403 @@
 [
-  "__diditee__",
-  "_karsten",
-  "abramovavl",
-  "adrien.ninet",
-  "advertigo_",
-  "ai_vitaminc_",
-  "aicenturyclips",
-  "aidaily.insights",
-  "aipapito.artlab",
-  "aipreneur.co",
-  "airesearches",
-  "aironzak",
-  "aitrendz.xyz",
-  "aivideoskool",
-  "aleko.so",
-  "alex_agafonov__",
-  "alexeylarin",
-  "alibekovkz",
-  "anishamilk_blog",
-  "anngoesbig",
-  "anyaalexi",
-  "artlist.io",
-  "ashoksangireddyy",
-  "asteriskcreate",
-  "bachynskyi_ui",
-  "barcelos.ai",
-  "barchevskaia.socials",
-  "bayazitovruslan",
-  "benkaluza",
-  "beosmm",
-  "berryfilm.app",
-  "bigfishmena",
-  "bilawal.ai",
-  "bilder.ai.prompt",
-  "biouniqum",
-  "boegow",
-  "boghanipalak",
-  "brandingstyleguides",
-  "briskly.online",
-  "brothersinart1",
-  "builtbyprajwal",
-  "business_people_",
-  "byjoeym",
-  "bywaviboy",
-  "bznsjournal",
-  "bznsmentor",
-  "canva",
-  "chelovekvmaskee",
-  "chomskysalam",
-  "cmk.kz",
-  "coldculture",
-  "coltonhavens6",
-  "cooldeep.ai",
-  "core.aivision",
-  "cpa.kill",
-  "craftwork.design",
-  "curiousrefuge",
-  "darrenmaen",
-  "dasttiedigital",
-  "deniz.akkabak",
-  "design4me__",
-  "designbyritika_",
-  "designlsy",
-  "digital_tycoons",
-  "dmitrihasideas",
-  "dmitry_astafiev",
-  "donixiinel",
-  "drink.love",
-  "eight.seconds",
-  "eluna.ai",
-  "eme.sdq",
-  "epicberry.ai",
-  "eu.guilhermehorcades",
-  "fabian.videograf",
-  "figma._.designer",
-  "filatov.design",
-  "fillrocha",
-  "florafaunaai",
-  "forbes_kz",
-  "forfost.xo",
-  "framer",
-  "freddie.kashawan",
-  "freepik",
-  "ftrngrr",
-  "garbar_sv",
-  "gb2r",
-  "gid.zdorovie",
-  "godofprompt",
-  "googlegemini",
-  "grafikcem",
-  "hancybox",
-  "hey.almix",
-  "heysirio",
-  "higgsfield.ai",
-  "hormozi",
-  "house.of.ag",
-  "iklipse_",
-  "imdrewrodriguez",
-  "inspiruxdesign",
-  "invideo.io",
-  "irina.pavlowa",
-  "itsbetterwithai",
-  "itsskye.me",
-  "jackroberts___",
-  "johnny_xx111",
-  "juliangoldietheseo",
-  "kairoforideas",
-  "kallaway",
-  "kalypsodesigns",
-  "keanu.visuals",
-  "khludneva_1",
-  "klinkovprofessor",
-  "kord.agency",
-  "lerkki.ii",
-  "liamjohnston.ai",
-  "lienzos.ec",
-  "louispaquet83",
-  "ltx.studio",
-  "luisummer",
-  "lumalabsai",
-  "lummipics",
-  "lupaupscaler",
-  "lvl_aiautomations",
-  "madebyizan",
-  "maestroprompts",
-  "maftuna_ui.ux",
-  "magenta.creativeagency",
-  "maksim_manahov",
-  "margulan.business",
-  "margulan_seissembai",
-  "marketerhub.ai",
-  "marketingharry",
-  "marrssiankaa",
-  "mattfarmerai",
-  "matyuhina_an",
-  "meogfx",
-  "mertra",
-  "mikita.yo",
-  "moadwls",
-  "mobileeditingclub",
-  "modernbrief",
-  "motivaider",
-  "motivator.tv",
-  "mrjonfinger",
-  "nano_banana_ibot",
-  "nastyasemeina",
-  "nick_saraev",
-  "nikoxstudios",
-  "nomadatoast",
-  "odilboyew_",
-  "ofernandorank",
-  "officialpwnkumar",
-  "ohneis652",
-  "olivermerrick___",
-  "onyxrealty",
-  "openart_ai",
-  "openspaces.io",
-  "oskar_hartmann",
-  "oyydash",
-  "palishaaa",
-  "passivepowerplay",
-  "perceiveai",
-  "personalbrandlaunch",
-  "peter.visuals",
-  "power.ai",
-  "prettylittlemarketer",
-  "prodbyzhenya",
-  "progress_dk",
-  "prompts.ig",
-  "pszucks",
-  "relume.io",
-  "rgbgroup_official",
-  "ricardoalmeida.dsg",
-  "riteshkv_",
-  "rockysmatcha",
-  "rourkeheath",
-  "runwayapp",
-  "rupocalypsee",
-  "s_golovoj",
-  "saidmurod_davlatov",
-  "satellite.fig",
-  "sebastienjefferies",
-  "seissembai.margulan",
-  "setupsai",
-  "seungho__yeo",
-  "sferro.ai",
-  "shayekin_ruslan",
-  "sidorova.1",
-  "signatureegy",
-  "sitastudio",
-  "socialmediajalyn",
-  "socialstocks.co",
-  "soy_aria_cruz",
-  "sp5derworldwide",
-  "stylebyjabs",
-  "superhouseofel",
-  "suraj.dsgn",
-  "suzanneisabellla",
-  "svoydom.ala",
-  "talesramiroart",
-  "tapewarp.ai",
-  "taylorgreathead",
-  "the.creators.cut",
-  "theaisavvy",
-  "theaisurfer",
-  "thebranding.ai",
-  "thebrang.ec",
-  "thecopywriterme_",
-  "theinsiders_club",
-  "theinsidersai",
-  "timhosqo",
-  "timkoda_",
-  "tinylennyofficial",
-  "trikko",
-  "trywithmark",
-  "ui.johnson",
-  "uiadrian",
-  "umzrs",
-  "uxbrainy",
-  "valeria__pivovarova",
-  "vertix.ia",
-  "via.masi",
-  "vibecodeapp",
-  "vladislava.mrch",
-  "vzlomgal",
-  "wellcopymax",
-  "withgeorgy",
-  "withonelee",
-  "yanayeaah",
-  "yasnost_misli",
-  "yourcultark",
-  "yukta.illustrates",
-  "yussupov21",
-  "zheka_fatbelly",
-  "zigzagprompts",
-    "aicenturyclips",
-  "theinsidersai",
-  "talesramiroart",
-  "aleko.so",
-  "onyxrealty",
-  "alex_agafonov_",
-  "heysirio",
-  "sebastienjefferies",
-  "theaisurfer",
-  "filatov.design",
-  "bywaviboy",
-  "curiousrefuge",
-  "mobileeditingclub",
-  "thebranding.ai",
-  "ohneis652",
-  "ui.johnson",
-  "tapewarp.ai",
-  "ricardoalmeida.dsg",
-  "prompts.ig",
-  "lummipics",
-  "stylebyjabs",
-  "core.aivision",
-  "beosmm",
-  "satellite.fig",
-  "cpa.kill",
-  "iklipse_",
-  "imdrewrodriguez",
-  "madebyizan",
-  "taylorgreathead",
-  "nano_banana_ibot",
-  "zigzagprompts",
-  "s_golovoj",
-  "vertix.ia",
-  "theinsiders_club",
-  "margulan_seissembai"
+  {
+    "username": "__diditee__",
+    "user_pk": 304884398
+  },
+  {
+    "username": "adrien.ninet",
+    "user_pk": 55150329708
+  },
+  {
+    "username": "airesearches",
+    "user_pk": 63815533095
+  },
+  {
+    "username": "aivideoskool",
+    "user_pk": 76360042412
+  },
+  {
+    "username": "aleko.so",
+    "user_pk": 479238078
+  },
+  {
+    "username": "alex_agafonov__",
+    "user_pk": 72120100702
+  },
+  {
+    "username": "alexeylarin",
+    "user_pk": 31989064
+  },
+  {
+    "username": "ai_vitaminc_",
+    "user_pk": 71809211647
+  },
+  {
+    "username": "anyaalexi",
+    "user_pk": 4614594185
+  },
+  {
+    "username": "asteriskcreate",
+    "user_pk": 57673026394
+  },
+
+  {
+    "username": "kallaway",
+    "user_pk": 285264009
+  },
+  {
+    "username": "lerkki.ii",
+    "user_pk": 60678572385
+  },
+  {
+    "username": "kord.agency",
+    "user_pk": 3503099454
+  },
+  {
+    "username": "keanu.visuals",
+    "user_pk": 258162501
+  },
+  {
+    "username": "lienzos.ec",
+    "user_pk": 48759995292
+  },
+  {
+    "username": "liamjohnston.ai",
+    "user_pk": 71547308243
+  },
+  {
+    "username": "lumalabsai",
+    "user_pk": 53875741778
+  },
+  {
+    "username": "luisummer",
+    "user_pk": 1377530293
+  },
+  {
+    "username": "louispaquet83",
+    "user_pk": 12873905
+  },
+  {
+    "username": "ltx.studio",
+    "user_pk": 65064884065
+  },
+  {
+    "username": "lvl_aiautomations",
+    "user_pk": 70925321758
+  },
+  {
+    "username": "madebyizan",
+    "user_pk": 8573288477
+  },
+  {
+    "username": "maftuna_ui.ux",
+    "user_pk": 57933849988
+  },
+  {
+    "username": "lummipics",
+    "user_pk": 63921384776
+  },
+  {
+    "username": "maestroprompts",
+    "user_pk": 65354267006
+  },
+  {
+    "username": "magenta.creativeagency",
+    "user_pk": 5592723481
+  },
+  {
+    "username": "lupaupscaler",
+    "user_pk": 53839396345
+  },
+  {
+    "username": "maksim_manahov",
+    "user_pk": 1561358686
+  },
+  {
+    "username": "margulan_seissembai",
+    "user_pk": 300610256
+  },
+  {
+    "username": "marketingharry",
+    "user_pk": 30735740872
+  },
+  {
+    "username": "matyuhina_an",
+    "user_pk": 535972734
+  },
+  {
+    "username": "mattfarmerai",
+    "user_pk": 223363740
+  },
+  {
+    "username": "marrssiankaa",
+    "user_pk": 75666195162
+  },
+  {
+    "username": "meogfx",
+    "user_pk": 69097041361
+  },
+  {
+    "username": "marketerhub.ai",
+    "user_pk": 60721816555
+  },
+  {
+    "username": "mertra",
+    "user_pk": 49292073674
+  },
+  {
+    "username": "mikita.yo",
+    "user_pk": 6929667344
+  },
+  {
+    "username": "mobileeditingclub",
+    "user_pk": 69979807123
+  },
+  {
+    "username": "modernbrief",
+    "user_pk": 58399398789
+  },
+  {
+    "username": "moadwls",
+    "user_pk": 1730698555
+  },
+  {
+    "username": "motivator.tv",
+    "user_pk": 7570520129
+  },
+  {
+    "username": "motivaider",
+    "user_pk": 35056564981
+  },
+  {
+    "username": "mrjonfinger",
+    "user_pk": 1153556590
+  },
+  {
+    "username": "nano_banana_ibot",
+    "user_pk": 77176826815
+  },
+  {
+    "username": "nick_saraev",
+    "user_pk": 72269881052
+  },
+  {
+    "username": "nastyasemeina",
+    "user_pk": 1689464985
+  },
+  {
+    "username": "odilboyew_",
+    "user_pk": 57616277872
+  },
+  {
+    "username": "nikoxstudios",
+    "user_pk": 64244689154
+  },
+  {
+    "username": "officialpwnkumar",
+    "user_pk": 3603319704
+  },
+  {
+    "username": "ofernandorank",
+    "user_pk": 12661674920
+  },
+  {
+    "username": "nomadatoast",
+    "user_pk": 61142553174
+  },
+  {
+    "username": "olivermerrick___",
+    "user_pk": 74456039218
+  },
+  {
+    "username": "ohneis652",
+    "user_pk": 8371935240
+  },
+  {
+    "username": "onyxrealty",
+    "user_pk": 1340412843
+  },
+  {
+    "username": "oskar_hartmann",
+    "user_pk": 34684003
+  },
+  {
+    "username": "openspaces.io",
+    "user_pk": 44581831252
+  },
+  {
+    "username": "oyydash",
+    "user_pk": 58227278640
+  },
+  {
+    "username": "palishaaa",
+    "user_pk": 8700880351
+  },
+  {
+    "username": "passivepowerplay",
+    "user_pk": 74015803989
+  },
+  {
+    "username": "openart_ai",
+    "user_pk": 66972499939
+  },
+  {
+    "username": "personalbrandlaunch",
+    "user_pk": 56413349678
+  },
+  {
+    "username": "prettylittlemarketer",
+    "user_pk": 37784413536
+  },
+  {
+    "username": "perceiveai",
+    "user_pk": 55654690408
+  },
+  {
+    "username": "peter.visuals",
+    "user_pk": 63847706909
+  },
+  {
+    "username": "power.ai",
+    "user_pk": 58134309921
+  },
+  {
+    "username": "prodbyzhenya",
+    "user_pk": 243872794
+  },
+  {
+    "username": "rgbgroup_official",
+    "user_pk": 10394233744
+  },
+  {
+    "username": "relume.io",
+    "user_pk": 55803964587
+  },
+  {
+    "username": "prompts.ig",
+    "user_pk": 76600344179
+  },
+  {
+    "username": "pszucks",
+    "user_pk": 57417279244
+  },
+  {
+    "username": "progress_dk",
+    "user_pk": 8247840300
+  },
+  {
+    "username": "ricardoalmeida.dsg",
+    "user_pk": 47410472043
+  },
+  {
+    "username": "riteshkv_",
+    "user_pk": 22135798539
+  },
+  {
+    "username": "rockysmatcha",
+    "user_pk": 4042154057
+  },
+  {
+    "username": "rupocalypsee",
+    "user_pk": 8043517906
+  },
+  {
+    "username": "rourkeheath",
+    "user_pk": 64325658281
+  },
+  {
+    "username": "satellite.fig",
+    "user_pk": 77698531946
+  },
+  {
+    "username": "setupsai",
+    "user_pk": 2221579249
+  },
+  {
+    "username": "seissembai.margulan",
+    "user_pk": 52457199568
+  },
+  {
+    "username": "saidmurod_davlatov",
+    "user_pk": 1250434747
+  },
+  {
+    "username": "sebastienjefferies",
+    "user_pk": 487717181
+  },
+  {
+    "username": "runwayapp",
+    "user_pk": 10490270455
+  },
+  {
+    "username": "s_golovoj",
+    "user_pk": 62468453520
+  },
+  {
+    "username": "seungho__yeo",
+    "user_pk": 5492463197
+  },
+  {
+    "username": "sferro.ai",
+    "user_pk": 71728942391
+  },
+  {
+    "username": "shayekin_ruslan",
+    "user_pk": 5915078317
+  },
+  {
+    "username": "signatureegy",
+    "user_pk": 25614890523
+  },
+  {
+    "username": "socialstocks.co",
+    "user_pk": 58230866899
+  },
+  {
+    "username": "socialmediajalyn",
+    "user_pk": 21305596604
+  },
+  {
+    "username": "sidorova.1",
+    "user_pk": 6006002
+  },
+  {
+    "username": "sitastudio",
+    "user_pk": 70085829271
+  },
+  {
+    "username": "sp5derworldwide",
+    "user_pk": 9678204196
+  },
+  {
+    "username": "stylebyjabs",
+    "user_pk": 75330033740
+  },
+  {
+    "username": "soy_aria_cruz",
+    "user_pk": 76022721723
+  },
+  {
+    "username": "suzanneisabellla",
+    "user_pk": 1811603708
+  },
+  {
+    "username": "superhouseofel",
+    "user_pk": 24584098525
+  },
+  {
+    "username": "taylorgreathead",
+    "user_pk": 77688206496
+  },
+  {
+    "username": "suraj.dsgn",
+    "user_pk": 71959376371
+  },
+  {
+    "username": "tapewarp.ai",
+    "user_pk": 73951248044
+  },
+  {
+    "username": "talesramiroart",
+    "user_pk": 1735137138
+  }
 ]

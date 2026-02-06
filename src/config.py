@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 import os
 
 load_dotenv()
@@ -30,9 +31,18 @@ class Settings(BaseSettings):
     instagram_proxy: str = os.getenv("INSTAGRAM_PROXY", "")
     instagram_settings_file: str = os.getenv("INSTAGRAM_SETTINGS_FILE", "instagram_settings.json")
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    # yt-dlp executor configuration
+    # yt-dlp operations can run in parallel (don't use Instagram client/proxy)
+    yt_dlp_max_workers: int = Field(default=2, ge=1, le=16)
+
+    # Test mode for development/testing
+    test_mode: bool = Field(default=False)
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=False,
+        extra="ignore"  # Игнорировать лишние поля в .env
+    )
 
 
 settings = Settings()

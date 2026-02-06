@@ -1,0 +1,134 @@
+╔════════════════════════════════════════════════════════════════════╗
+║                    UNIFIED WORKER QUICK START                       ║
+╚════════════════════════════════════════════════════════════════════╝
+
+┌─ AUTOMATED SETUP (RECOMMENDED) ─────────────────────────────────────┐
+│                                                                    │
+│  python start_worker.py                                            │
+│                                                                    │
+│  Follow the prompts to:                                            │
+│    • Install dependencies                                          │
+│    • Create directories                                            │
+│    • Run database migrations                                       │
+│    • Start the worker                                              │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ MANUAL SETUP ────────────────────────────────────────────────────┐
+│                                                                    │
+│  1. Copy environment template:                                     │
+│     cp .env.example .env                                           │
+│                                                                    │
+│  2. Edit .env and set:                                             │
+│     DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/db  │
+│     INSTAGRAM_SESSIONID=your_sessionid_here                        │
+│     (or INSTAGRAM_USERNAME/PASSWORD)                               │
+│                                                                    │
+│  3. Install dependencies:                                          │
+│     pip install sqlalchemy asyncpg instagrapi yt-dlp apscheduler   │
+│                  python-dotenv pydantic-settings alembic           │
+│                                                                    │
+│  4. Create database:                                               │
+│     createdb your_database_name                                    │
+│                                                                    │
+│  5. Run migrations:                                                │
+│     alembic upgrade head                                           │
+│                                                                    │
+│  6. Create audio directory:                                        │
+│     mkdir -p audio                                                 │
+│                                                                    │
+│  7. Add accounts to database (see WORKER_SETUP.md)                │
+│                                                                    │
+│  8. Start worker:                                                  │
+│     python unified_worker.py                                       │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ VERIFICATION & TESTING ──────────────────────────────────────────┐
+│                                                                    │
+│  Check environment:                                                │
+│    python check_environment.py                                     │
+│                                                                    │
+│  Test database (no Instagram API):                                 │
+│    python test_database_only.py                                    │
+│                                                                    │
+│  Test with mocks (no Instagram API):                               │
+│    python test_worker_mock.py                                      │
+│                                                                    │
+│  Quick import test:                                                │
+│    python -c "from unified_worker import UnifiedWorker; print('OK')"│
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ GET INSTAGRAM SESSIONID ─────────────────────────────────────────┐
+│                                                                    │
+│  1. Open Instagram in browser (incognito mode)                     │
+│  2. Login to your account                                          │
+│  3. Press F12 → Application → Cookies                              │
+│  4. Find "sessionid" cookie                                        │
+│  5. Copy value to .env:                                            │
+│     INSTAGRAM_SESSIONID=paste_value_here                           │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ WORKER TASKS ────────────────────────────────────────────────────┐
+│                                                                    │
+│  • Process metrics:      every 1 minute                            │
+│  • Update schedules:     every 1 hour                              │
+│  • Fetch new videos:     every 6 hours                             │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON ISSUES ───────────────────────────────────────────────────┐
+│                                                                    │
+│  ❌ "No module named 'xxx'"                                       │
+│     → pip install sqlalchemy asyncpg instagrapi yt-dlp apscheduler │
+│                  python-dotenv pydantic-settings                   │
+│                                                                    │
+│  ❌ "connection refused"                                          │
+│     → Check PostgreSQL is running                                  │
+│     → Verify DATABASE_URL in .env                                  │
+│                                                                    │
+│  ❌ "relation does not exist"                                      │
+│     → Run: alembic upgrade head                                    │
+│                                                                    │
+│  ❌ "No accounts found"                                            │
+│     → Add accounts to database (see WORKER_SETUP.md)               │
+│                                                                    │
+│  ❌ "AuthenticationError"                                          │
+│     → Get fresh sessionid from browser                             │
+│     → Or use INSTAGRAM_USERNAME/PASSWORD                           │
+│                                                                    │
+│  ❌ "NetworkError" / "ChallengeRequired"                           │
+│     → Your provider may block Instagram                            │
+│     → Use proxy: INSTAGRAM_PROXY=http://user:pass@host:port        │
+│     → Or test with: python test_worker_mock.py                    │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ DOCUMENTATION ───────────────────────────────────────────────────┐
+│                                                                    │
+│  • WORKER_SETUP.md           - Full English guide                  │
+│  • SETUP_WORKER.md           - Полная документация (русский)       │
+│  • IMPLEMENTATION_COMPLETE.md - Implementation details             │
+│  • .env.example              - Environment template                │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ FILES CREATED ───────────────────────────────────────────────────┐
+│                                                                    │
+│  ✓ SETUP_WORKER.md              - Russian technical docs           │
+│  ✓ WORKER_SETUP.md              - English user guide               │
+│  ✓ check_environment.py         - Environment verification tool    │
+│  ✓ start_worker.py              - Interactive setup script         │
+│  ✓ test_database_only.py        - Database testing (no IG API)    │
+│  ✓ test_worker_mock.py          - Mock testing (no IG API)         │
+│  ✓ IMPLEMENTATION_COMPLETE.md   - Implementation summary           │
+│  ✓ .env.example                 - Updated environment template     │
+│  ✓ QUICKSTART.txt               - This file                        │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════╗
+║  Need help? Run: python check_environment.py                       ║
+╚════════════════════════════════════════════════════════════════════╝

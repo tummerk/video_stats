@@ -5,8 +5,8 @@ Runs three tasks with different intervals.
 import asyncio
 import logging
 import os
-import instaloader
 from datetime import datetime, timedelta, timezone
+from typing import List, Optional
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from src.config import settings
@@ -15,13 +15,7 @@ from src.repositories.video_repository import VideoRepository
 from src.repositories.metrics_repository import MetricsRepository
 from src.repositories.metric_schedule_repository import MetricScheduleRepository
 from src.repositories.account_repository import AccountRepository
-
-# Import from existing workers
-from worker_new_video import ReelsWorker, AudioDownloadService, TranscriptionService
-from worker_new_video import InstagramService as NewVideoInstagramService
-from worker_metrics import MetricsScheduler
-
-# Import worker monitor
+from src.services.instagram_service import InstagramService
 from admin.services.worker_monitor import WorkerMonitor
 
 # Configure logging
@@ -32,160 +26,193 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class ExtendedReelsWorker(ReelsWorker):
-    """Extended ReelsWorker that creates metric schedules immediately."""
+class MetricsScheduler:
+    """Metrics scheduler based on fixed milestones from publication time."""
 
-    async def process_account(
-        self,
-        account_username: str,
-        account_repo: AccountRepository,
-        video_repo: VideoRepository,
-        schedule_repo: MetricScheduleRepository = None,
-        metrics_scheduler: MetricsScheduler = None,
-        session = None
-    ) -> int:
+    # Fixed milestones from publication time
+    MILESTONES = [
+        {"hours": 1, "type": "1h"},
+        {"hours": 3, "type": "3h"},
+        {"hours": 24, "type": "24h"},
+        {"hours": 48, "type": "48h"},
+        {"hours": 72, "type": "72h"},
+    ]
+
+    DAILY_MILESTONE_HOURS = 72  # After this, use daily schedule
+
+    def _calculate_next_full_hour(self, dt: datetime) -> datetime:
+        """Calculate the next full hour.
+
+        Examples:
+            12:34 -> 13:00
+            12:03 -> 13:00
         """
-        Process reels for a single account and create metric schedules immediately.
+        next_hour = dt.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
+        return next_hour
+
+    def _get_milestone_times(self, published_at: datetime) -> List[dict]:
+        """Calculate all milestone times from publication."""
+        milestones = []
+        for milestone in self.MILESTONES:
+            milestone_time = published_at + timedelta(hours=milestone["hours"])
+            milestones.append({
+                'time': milestone_time,
+                'type': milestone['type']
+            })
+        return milestones
+
+    def _get_next_milestone(self, published_at: datetime, now: datetime) -> Optional[dict]:
+        """Find the next milestone that hasn't passed yet.
 
         Returns:
-            Number of new videos processed
+            milestone (dict): next milestone for collection
+            None: all milestones passed -> use daily schedule
+
+        IMPORTANT: None does NOT mean "don't collect metrics"! It means switch to daily.
         """
-        from src.models.video import Video
+        milestones = self._get_milestone_times(published_at)
+        for milestone in milestones:
+            if milestone['time'] > now:  # Strict comparison
+                return milestone
+        return None  # All milestones passed -> switch to daily
 
-        processed_count = 0
+    async def _get_daily_schedule_time(
+        self,
+        video,
+        schedule_repo: MetricScheduleRepository,
+        now: datetime
+    ) -> tuple[datetime, str]:
+        """Calculate time for daily collection (>72h).
 
-        try:
-            logger.info(f"Processing account: {account_username}")
-
-            # Get Instagram profile
-            profile = await self.instagram.get_profile(account_username)
-
-            # Ensure account exists in database
-            account = await account_repo.create_or_update_by_username(
-                username=account_username,
-                profile_url=f"https://www.instagram.com/{profile.username}/",
-                followers_count=profile.followers
+        - First daily: next full hour
+        - Subsequent daily: same time as previous daily
+        """
+        # Check for optimized method
+        if hasattr(schedule_repo, 'get_last_daily_schedule'):
+            latest_daily = await schedule_repo.get_last_daily_schedule(video.id)
+        else:
+            # Fallback: get all completed schedules and filter
+            completed_schedules = await schedule_repo.get_schedules_by_video(
+                video.id, status='completed'
             )
-            logger.info(f"Account {account_username} ensured in DB (id={account.id})")
+            daily_schedules = [
+                s for s in completed_schedules if s.schedule_type == 'daily'
+            ]
+            latest_daily = max(daily_schedules, key=lambda s: s.scheduled_at) if daily_schedules else None
 
-            # Fetch and process reels (get_posts returns an iterator)
-            posts = profile.get_reels()
+        if latest_daily:
+            # NOT the first daily - use the same time
+            next_time = latest_daily.scheduled_at + timedelta(days=1)
+            return next_time, 'daily'
+        else:
+            # FIRST daily - next full hour
+            next_time = self._calculate_next_full_hour(now)
+            return next_time, 'daily'
 
-            reel_count = 0
-            for post in posts:
-                reel_count += 1
-                if reel_count > settings.worker_reels_limit:
-                    logger.info(f"Reached limit of {settings.worker_reels_limit} reels")
-                    break
+    async def create_schedule_for_video(self, video, schedule_repo: MetricScheduleRepository):
+        """Create metric collection schedule based on fixed milestones.
 
-                # Check if video already exists
-                existing = await video_repo.get_by_shortcode(post.shortcode)
-                if existing:
-                    logger.info(f"Video {post.shortcode} already exists, stopping")
-                    break
+        Logic:
+        1. Calculate milestones: 1h, 3h, 24h, 48h, 72h from publication
+        2. Find next milestone that hasn't passed yet
+        3. If all milestones passed (>72h): use daily
+           - First daily: next full hour
+           - Subsequent daily: same time as previous daily
 
-                post_date_aware = post.date_utc.replace(tzinfo=timezone.utc)
+        IMPORTANT: ANY video in DB WILL get metrics! After 72h - daily.
+        """
+        from src.models.metric_schedule import MetricSchedule
 
-                # 2. Теперь вычитаем (обе даты знают, что они UTC)
-                video_age_days = (datetime.now(timezone.utc) - post_date_aware).days
+        now = datetime.now(timezone.utc)
+        published_at = video.published_at.replace(tzinfo=timezone.utc)
+        video_age = now - published_at
+        hours_since_publication = video_age.total_seconds() / 3600
 
-                if video_age_days > 7:
-                    logger.info(f"Video {post.shortcode} is {video_age_days} days old (limit: 7), stopping")
-                    break
+        # Check for existing pending schedule
+        existing_schedules = await schedule_repo.get_pending_schedules_by_video(video.id)
+        if existing_schedules:
+            logger.debug(f"Video {video.shortcode} already has pending schedules")
+            return
 
-                # Process new reel
-                logger.info(f"Processing new reel: {post.shortcode}")
+        # Determine next schedule
+        if hours_since_publication < self.DAILY_MILESTONE_HOURS:
+            # Find next milestone
+            next_milestone = self._get_next_milestone(published_at, now)
 
-                reel_url = f"https://www.instagram.com/reel/{post.shortcode}/"
-                enriched = await self.enrich_reel(reel_url, post.shortcode)
-
-                # Save to database
-                video = await video_repo.create_or_update_by_shortcode(
-                    shortcode=post.shortcode,
-                    video_id=post.shortcode,
-                    video_url=enriched.get('video_url'),
-                    published_at=post.date_utc,
-                    caption=post.caption,
-                    duration_seconds=post.video_duration,
-                    audio_url=enriched.get('audio_url'),
-                    audio_file_path=enriched.get('audio_file_path'),
-                    transcription=enriched.get('transcription'),
-                    account_id=account.id
+            if next_milestone:
+                # Use milestone (1h, 3h, 24h, 48h, 72h)
+                scheduled_at = next_milestone['time']
+                schedule_type = next_milestone['type']
+            else:
+                # All milestones passed -> switch to daily
+                # This happens when video_age is between 72h and next schedule creation
+                scheduled_at, schedule_type = await self._get_daily_schedule_time(
+                    video, schedule_repo, now
                 )
+        else:
+            # Video older than 72 hours -> IMMEDIATELY use daily
+            # ANY video older than 72h WILL get metrics daily!
+            scheduled_at, schedule_type = await self._get_daily_schedule_time(
+                video, schedule_repo, now
+            )
 
-                processed_count += 1
-                logger.info(f"Saved reel {post.shortcode} to database")
-                await session.commit()  # Commit immediately after each video
+        # Create schedule
+        await schedule_repo.create_schedule(
+            video_id=video.id,
+            schedule_type=schedule_type,
+            scheduled_at=scheduled_at,
+            status="pending"
+        )
 
-                # Create metric schedules IMMEDIATELY after saving video
-                if schedule_repo and metrics_scheduler:
-                    try:
-                        # Reload video to get all fields
-                        video_obj = await video_repo.get_by_shortcode(post.shortcode)
-                        if video_obj:
-                            await metrics_scheduler.create_schedule_for_video(video_obj, schedule_repo)
-                            logger.info(f"Created initial metric schedules for {post.shortcode}")
-                    except Exception as e:
-                        logger.error(f"Failed to create schedules for {post.shortcode}: {e}")
+        # Logging with age information
+        age_str = f"{int(hours_since_publication)}h"
+        if hours_since_publication >= 24:
+            age_str = f"{int(hours_since_publication // 24)}d"
 
-                # Small delay between reels
-                await asyncio.sleep(self.DELAY_BETWEEN_REELS)
-
-            logger.info(f"Processed {processed_count} new reels for {account_username}")
-
-        except Exception as e:
-            logger.error(f"Error processing account {account_username}: {e}")
-            # Don't raise - continue processing other accounts
-
-        return processed_count
+        logger.info(
+            f"Created schedule for {video.shortcode} (age: {age_str}) "
+            f"at {scheduled_at} (type: {schedule_type})"
+        )
 
 
 class UnifiedWorker:
     """Unified worker with three scheduled tasks."""
 
     # Rate limiting
+    DELAY_BETWEEN_ACCOUNTS = 10  # seconds
     DELAY_BETWEEN_METRICS = 0.5  # seconds
 
     def __init__(self):
-        # Initialize services from worker_new_video.py
-        self.instagram_new = NewVideoInstagramService()
-        self.audio_service = AudioDownloadService(settings.audio_dir)
-        self.transcription_service = TranscriptionService(model_size="base")
-
-        # Initialize scheduler from worker_metrics.py
+        """Initialize the unified worker."""
+        self.instagram_service = InstagramService(db_session_factory=get_session)
         self.metrics_scheduler = MetricsScheduler()
+        self.fetch_count = 0  # Счётчик запусков fetch_new_videos
+        self.schedule_count = 0  # Счётчик запусков update_metric_schedules
+        self.metrics_count = 0  # Счётчик запусков process_scheduled_metrics
 
-        # Use extended worker that creates metric schedules immediately
-        self.reels_worker = ExtendedReelsWorker(
-            self.instagram_new,
-            self.audio_service,
-            self.transcription_service
-        )
-
-        # For metrics: simple instaloader WITHOUT login (public data)
-        self._public_loader = None
-
-    @property
-    def public_loader(self) -> instaloader.Instaloader:
-        """Lazy-loaded Instaloader for public metrics (no login)."""
-        if self._public_loader is None:
-            self._public_loader = instaloader.Instaloader(
-                download_videos=False,
-                download_comments=False,
-                save_metadata=False
-            )
-        return self._public_loader
+    async def update_heartbeat(self):
+        """Update worker heartbeat in database."""
+        try:
+            async with get_session() as session:
+                await WorkerMonitor.update_heartbeat(
+                    session,
+                    worker_name="unified_worker",
+                    pid=os.getpid()
+                )
+                await session.commit()
+        except Exception as e:
+            logger.error(f"Failed to update heartbeat: {e}")
 
     async def fetch_new_videos(self):
-        """Fetch new reels from all accounts and create metric schedules immediately (every 6 hours)."""
-        logger.info("Starting fetch_new_videos task")
-
-        total_processed = 0
+        """Fetch new reels from all accounts (every 6 hours)."""
+        self.fetch_count += 1
+        logger.info(f"Starting fetch_new_videos task (Run #{self.fetch_count})")
+        if settings.test_mode:
+            logger.warning("⚠️  TEST MODE - Using reduced delays!")
 
         try:
             async with get_session() as session:
                 account_repo = AccountRepository(session)
-                video_repo = VideoRepository(session)
                 schedule_repo = MetricScheduleRepository(session)
 
                 # Get all accounts
@@ -196,113 +223,140 @@ class UnifiedWorker:
                     logger.warning("No accounts found in database, skipping")
                     return
 
-                # Process each account with immediate schedule creation
+                total_processed = 0
                 for account in accounts:
-                    count = await self.reels_worker.process_account(
-                        account.username,
-                        account_repo,
-                        video_repo,
-                        schedule_repo,
-                        self.metrics_scheduler,
-                        session
-                    )
-                    total_processed += count
+                    try:
+                        logger.info(f"Processing account: {account.username} (id={account.id})")
 
-                    # Delay between accounts
-                    await asyncio.sleep(self.reels_worker.DELAY_BETWEEN_ACCOUNTS)
+                        # Use InstagramService to fetch recent videos
+                        # Account.id = user_pk
+                        await self.instagram_service.get_user_recent_videos(
+                            user_pk=account.id,
+                            username=account.username,
+                            limit=settings.worker_reels_limit
+                        )
 
-            logger.info(f"Job completed: {total_processed} new reels processed")
+                        total_processed += 1
+
+                        # Create metric schedules for newly added videos
+                        video_repo = VideoRepository(session)
+                        # Get recent videos for this account that might need schedules
+                        videos = await video_repo.get_videos_for_schedule_update(limit=100)
+
+                        for video in videos:
+                            if video.account_id == account.id:
+                                try:
+                                    await self.metrics_scheduler.create_schedule_for_video(video, schedule_repo)
+                                except Exception as e:
+                                    logger.error(f"Failed to create schedule for {video.shortcode}: {e}")
+
+                    except Exception as e:
+                        logger.error(f"Error processing account {account.username}: {e}")
+                        # Continue with next account
+
+                    # Delay between accounts (reduced in test mode)
+                    delay = 1 if settings.test_mode else self.DELAY_BETWEEN_ACCOUNTS
+                    await asyncio.sleep(delay)
+
+                await session.commit()
+                logger.info(f"Job completed: processed {total_processed} accounts")
 
         except Exception as e:
             logger.error(f"Error in fetch_new_videos: {e}")
 
     async def update_metric_schedules(self):
         """Create/update metric schedules for videos (every 1 hour)."""
-        logger.info("Checking for videos needing schedule updates...")
+        self.schedule_count += 1
+        logger.info(f"Checking for videos needing schedule updates (Run #{self.schedule_count})...")
 
-        async with get_session() as session:
-            video_repo = VideoRepository(session)
-            schedule_repo = MetricScheduleRepository(session)
+        try:
+            async with get_session() as session:
+                video_repo = VideoRepository(session)
+                schedule_repo = MetricScheduleRepository(session)
 
-            videos = await video_repo.get_videos_for_schedule_update(limit=100)
-            logger.info(f"Found {len(videos)} videos needing schedules")
+                videos = await video_repo.get_videos_for_schedule_update(limit=100)
+                logger.info(f"Found {len(videos)} videos needing schedules")
 
-            for video in videos:
-                try:
-                    await self.metrics_scheduler.create_schedule_for_video(video, schedule_repo)
-                except Exception as e:
-                    logger.error(f"Failed to create schedule for {video.shortcode}: {e}")
+                for video in videos:
+                    try:
+                        await self.metrics_scheduler.create_schedule_for_video(video, schedule_repo)
+                    except Exception as e:
+                        logger.error(f"Failed to create schedule for {video.shortcode}: {e}")
 
-    async def fetch_metrics_public(self, shortcode: str) -> dict:
-        """Fetch metrics without login (public data)."""
-        loop = asyncio.get_event_loop()
-        post = await loop.run_in_executor(
-            None,
-            lambda: instaloader.Post.from_shortcode(self.public_loader.context, shortcode)
-        )
+                await session.commit()
+
+        except Exception as e:
+            logger.error(f"Error in update_metric_schedules: {e}")
+
+    async def fetch_metrics_public(self, video_id: str) -> dict:
+        """Fetch metrics using InstagramService.
+
+        Args:
+            video_id: Video ID (media_pk as string)
+
+        Returns:
+            Dict with view_count, like_count, comment_count, followers_count
+        """
+        # Video.video_id = media_pk
+        media_pk = int(video_id)
+
+        metrics = await self.instagram_service.get_video_metrics(media_pk)
 
         return {
-            'view_count': post.video_play_count,
-            'like_count': post.likes,
-            'comment_count': post.comments,
+            'view_count': metrics.view_count,
+            'like_count': metrics.like_count,
+            'comment_count': metrics.comment_count,
+            'followers_count': metrics.followers_count,
         }
 
     async def process_scheduled_metrics(self):
         """Execute pending scheduled tasks (every 1 minute)."""
-        logger.info("Processing scheduled metrics collection...")
+        self.metrics_count += 1
+        logger.info(f"Processing scheduled metrics collection (Run #{self.metrics_count})...")
 
-        async with get_session() as session:
-            schedule_repo = MetricScheduleRepository(session)
-            metrics_repo = MetricsRepository(session)
+        try:
+            async with get_session() as session:
+                schedule_repo = MetricScheduleRepository(session)
+                metrics_repo = MetricsRepository(session)
 
-            pending = await schedule_repo.get_pending_schedules()
-            logger.info(f"Found {len(pending)} due schedules")
+                pending = await schedule_repo.get_pending_schedules()
+                logger.info(f"Found {len(pending)} due schedules")
 
-            for schedule in pending:
-                video = schedule.video
-                logger.info(f"Processing {schedule.schedule_type} for {video.shortcode}")
+                for schedule in pending:
+                    video = schedule.video
+                    logger.info(f"Processing {schedule.schedule_type} for {video.shortcode}")
 
-                try:
-                    # Fetch metrics WITHOUT login
-                    metrics_data = await self.fetch_metrics_public(video.shortcode)
+                    try:
+                        # Fetch metrics using InstagramService
+                        # Video.video_id is the media_pk
+                        metrics_data = await self.fetch_metrics_public(video.video_id)
 
-                    # Save to database
-                    await metrics_repo.create_metrics_snapshot(
-                        video_id=video.id,
-                        view_count=metrics_data['view_count'] or 0,
-                        like_count=metrics_data['like_count'],
-                        comment_count=metrics_data['comment_count'],
-                        followers_count=0  # Not available without login
-                    )
+                        # Save to database
+                        await metrics_repo.create_metrics_snapshot(
+                            video_id=video.id,
+                            view_count=metrics_data['view_count'] or 0,
+                            like_count=metrics_data['like_count'],
+                            comment_count=metrics_data['comment_count'],
+                            followers_count=metrics_data['followers_count'] or 0
+                        )
 
-                    # Mark completed
-                    await schedule_repo.mark_completed(schedule.id)
-                    await session.commit()  # Commit immediately after each metric
+                        # Mark completed
+                        await schedule_repo.mark_completed(schedule.id)
+                        await session.commit()  # Commit immediately after each metric
 
-                    # Create next schedule
-                    await self.metrics_scheduler.create_schedule_for_video(video, schedule_repo)
+                        # Create next schedule
+                        await self.metrics_scheduler.create_schedule_for_video(video, schedule_repo)
 
-                    # Rate limiting
-                    await asyncio.sleep(self.DELAY_BETWEEN_METRICS)
+                        # Rate limiting
+                        await asyncio.sleep(self.DELAY_BETWEEN_METRICS)
 
-                except Exception as e:
-                    logger.error(f"Failed to process {schedule.id}: {e}")
-                    await schedule_repo.mark_failed(schedule.id)
+                    except Exception as e:
+                        logger.error(f"Failed to process {schedule.id}: {e}")
+                        await schedule_repo.mark_failed(schedule.id)
+                        await session.commit()
 
-
-async def update_heartbeat():
-    """Update worker heartbeat in database."""
-    try:
-        pid = os.getpid()
-        async with get_session() as session:
-            await WorkerMonitor.update_heartbeat(
-                session,
-                worker_name="unified_worker",
-                pid=pid
-            )
-            await session.commit()
-    except Exception as e:
-        logger.error(f"Failed to update heartbeat: {e}")
+        except Exception as e:
+            logger.error(f"Error in process_scheduled_metrics: {e}")
 
 
 async def main():
@@ -311,53 +365,78 @@ async def main():
     logger.info("STARTING UNIFIED WORKER")
     logger.info("=" * 60)
 
+    # Check if test mode is enabled
+    test_mode = settings.test_mode
+
+    if test_mode:
+        logger.warning("⚠️  TEST MODE ENABLED - Short intervals for testing!")
+        logger.warning("⚠️  Set TEST_MODE=false in .env for production use")
+
     worker = UnifiedWorker()
     apsched = AsyncIOScheduler()
 
-    # Job 0: Update heartbeat (every 30 seconds)
-    apsched.add_job(
-        update_heartbeat,
-        'interval',
-        seconds=30,
-        id='heartbeat'
-    )
-    logger.info("  - Heartbeat: every 30 seconds")
+    # Job 1: Process scheduled metrics
+    if test_mode:
+        metrics_interval = 10  # 10 seconds in test mode
+        logger.info("  - Process metrics: every 10 seconds (TEST MODE)")
+    else:
+        metrics_interval = 60  # 1 minute in production
+        logger.info("  - Process metrics: every 1 minute")
 
-    # Job 1: Process scheduled metrics (every 1 minute)
     apsched.add_job(
         worker.process_scheduled_metrics,
         'interval',
-        minutes=1,
+        seconds=metrics_interval,
         id='process_metrics'
     )
-    logger.info("  - Process metrics: every 1 minute")
 
-    # Job 2: Update schedules (every 1 hour)
+    # Job 2: Update schedules
+    if test_mode:
+        schedules_interval = 30  # 30 seconds in test mode
+        logger.info("  - Update schedules: every 30 seconds (TEST MODE)")
+    else:
+        schedules_interval = 86400  # 24 hours in production
+        logger.info("  - Update schedules: every 24 hours")
+
     apsched.add_job(
         worker.update_metric_schedules,
         'interval',
-        hours=1,
+        seconds=schedules_interval,
         id='update_schedules'
     )
-    logger.info("  - Update schedules: every 1 hour")
 
-    # Job 3: Fetch new videos (every 6 hours)
+    # Job 3: Fetch new videos
+    if test_mode:
+        videos_interval = 10  # 10 seconds in test mode
+        logger.info(f"  - Fetch videos: every 10 seconds (TEST MODE)")
+    else:
+        videos_interval = settings.worker_interval_hours * 3600  # hours to seconds
+        logger.info(f"  - Fetch videos: every {settings.worker_interval_hours} hours")
+
     apsched.add_job(
         worker.fetch_new_videos,
         'interval',
-        hours=settings.worker_interval_hours,
+        seconds=videos_interval,
         id='fetch_videos'
     )
-    logger.info(f"  - Fetch videos: every {settings.worker_interval_hours} hours")
+
+    # Job 4: Update heartbeat (every 30 seconds)
+    heartbeat_interval = 30  # 30 seconds
+    logger.info(f"  - Update heartbeat: every {heartbeat_interval} seconds")
+
+    apsched.add_job(
+        worker.update_heartbeat,
+        'interval',
+        seconds=heartbeat_interval,
+        id='update_heartbeat'
+    )
 
     apsched.start()
     logger.info("Scheduler started")
 
-    # Initial heartbeat
-    await update_heartbeat()
-
     # Run initial tasks
     logger.info("Running initial tasks...")
+    await worker.update_heartbeat()  # Initial heartbeat
     await worker.fetch_new_videos()
     await worker.update_metric_schedules()
     await worker.process_scheduled_metrics()
@@ -378,7 +457,9 @@ async def main():
         except Exception as e:
             logger.error(f"Failed to mark worker as stopped: {e}")
 
+        await worker.instagram_service.close()
         apsched.shutdown()
+        logger.info("Worker stopped")
 
 
 if __name__ == "__main__":

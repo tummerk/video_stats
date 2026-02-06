@@ -8,13 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from admin.dependencies import get_db
+from admin.services.worker_monitor import WorkerMonitor
 from src.repositories import (
     AccountRepository,
     VideoRepository,
     MetricsRepository,
     MetricScheduleRepository,
 )
-from src.models import WorkerHeartbeat
 
 router = APIRouter()
 templates = Jinja2Templates(directory="admin/templates")
@@ -22,34 +22,18 @@ templates = Jinja2Templates(directory="admin/templates")
 
 async def get_worker_status(db: AsyncSession) -> dict:
     """Get worker status from heartbeat table."""
-    result = await db.execute(
-        select(WorkerHeartbeat).where(
-            WorkerHeartbeat.worker_name == "unified_worker"
-        )
-    )
-    heartbeat = result.scalar_one_or_none()
+    status_data = await WorkerMonitor.get_worker_status(db, worker_name="unified_worker")
 
-    if not heartbeat:
-        return {
-            "status": "unknown",
-            "last_heartbeat": None,
-            "uptime": None,
-        }
-
-    # Check if last heartbeat is within 2 minutes
-    time_since_heartbeat = datetime.now(timezone.utc) - heartbeat.last_heartbeat
-    is_running = time_since_heartbeat < timedelta(minutes=2)
-
-    # Calculate uptime
+    # Calculate uptime (time since last heartbeat for running workers)
     uptime = None
-    if is_running:
-        uptime = time_since_heartbeat
+    if status_data["status"] == "running" and status_data["time_since_heartbeat"]:
+        uptime = status_data["time_since_heartbeat"]
 
     return {
-        "status": "running" if is_running else "stopped",
-        "last_heartbeat": heartbeat.last_heartbeat,
+        "status": status_data["status"],
+        "last_heartbeat": status_data["last_heartbeat"],
         "uptime": uptime,
-        "pid": heartbeat.pid,
+        "pid": status_data["pid"],
     }
 
 
