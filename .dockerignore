@@ -1,26 +1,80 @@
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.Python
+# =============================================================================
+# Common Dockerignore - Exclude files unnecessary for both admin and worker
+# =============================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 *.so
-*.egg
-*.egg-info
-dist
-build
-.env
-.venv
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
 venv/
 ENV/
 env/
-.git
-.gitignore
-*.md
-audio/
-cookies/
-instagram_settings.json
-metadata.json
-*.log
-nul
-.idea/
+
+# IDEs
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Logs
+logs/
+*.log
+
+# Environment files (should be mounted as volume or passed as args)
+.env
+.env.*
+!.env.example
+
+# Test files
+tests/
+test_*.py
+*_test.py
+pytest.ini
+
+# Temporary files
+tmp/
+temp/
+nul
+*.tmp
+
+# Audio files (will be created at runtime)
+audio/*.mp3
+audio/*.m4a
+audio/*.wav
+
+# Database (if local)
+*.db
+*.sqlite
+
+# Docker files (don't include Docker files in Docker image)
+Dockerfile.worker
+docker-compose*.yml
+.dockerignore.worker
+
+# Other
+*.bak
+*.backup
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Claude Code
+.claude/

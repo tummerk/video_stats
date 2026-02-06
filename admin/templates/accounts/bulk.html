@@ -9,20 +9,41 @@
     <h2>Add Multiple Instagram Accounts</h2>
     <form method="post" action="/accounts/bulk">
         <div class="form-group">
-            <label for="usernames_data">Usernames</label>
+            <label for="usernames_data">Accounts Data</label>
+
+            <div class="alert alert-info mb-3">
+                <strong>Supported formats:</strong>
+                <ul class="mb-0 mt-2">
+                    <li><strong>JSON format</strong> (recommended): [{"username": "user1", "user_pk": 123}, ...]</li>
+                    <li><strong>Plain text</strong>: One username per line (user_pk will be fetched later)</li>
+                </ul>
+            </div>
+
             <p class="text-muted">
-                Enter one username per line, or separate with commas.<br>
-                Example:<br>
+                <strong>JSON Example:</strong><br>
+                <pre class="bg-light p-2 mt-2" style="font-size: 12px;">[
+  {
+    "username": "__diditee__",
+    "user_pk": 304884398
+  },
+  {
+    "username": "adrien.ninet",
+    "user_pk": 55150329708
+  }
+]</pre>
+
+                <strong>Plain Text Example:</strong><br>
                 <code>instagram</code><br>
                 <code>facebook</code><br>
                 <code>twitter</code>
             </p>
+
             <textarea
                 name="usernames_data"
                 id="usernames_data"
                 class="form-control"
                 rows="20"
-                placeholder="username1&#10;username2&#10;username3"
+                placeholder='[{"username": "user1", "user_pk": 123}, ...]&#10;or&#10;username1&#10;username2&#10;username3'
                 required
             ></textarea>
         </div>

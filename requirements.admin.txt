@@ -1,23 +1,26 @@
-# Admin Panel Dependencies
-# Web server and API
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
+# =============================================================================
+# Instagram Reels Tracker - Admin Panel Requirements
+# =============================================================================
 
-# Templating
-jinja2==3.1.2
+# =============================================================================
+# Web Framework
+# =============================================================================
+fastapi==0.128.1
+uvicorn[standard]==0.25.0
+jinja2==3.1.4
+python-multipart==0.0.9
 
-# Form data handling
-python-multipart==0.0.6
-
+# =============================================================================
 # Database
+# =============================================================================
 sqlalchemy==2.0.23
 asyncpg==0.29.0
 psycopg2-binary==2.9.9
+alembic==1.13.1
 
-# Configuration and validation
-pydantic==2.5.3
-pydantic-settings==2.1.0
+# =============================================================================
+# Configuration
+# =============================================================================
+pydantic>=2.10.0
+pydantic-settings>=2.1.0
 python-dotenv==1.0.0
-
-# Database migrations
-alembic==1.12.1

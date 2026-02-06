@@ -1,6 +1,8 @@
 """
 Videos management and metrics visualization routes.
 """
+from pathlib import Path
+
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
@@ -13,10 +15,11 @@ from src.repositories import VideoRepository, MetricsRepository
 from src.models import Video
 
 router = APIRouter()
-templates = Jinja2Templates(directory="admin/templates")
+templates_dir = Path(__file__).parent.parent / "templates"
+templates = Jinja2Templates(directory=str(templates_dir))
 
 
-@router.get("/videos")
+@router.get("/")
 async def list_videos(
     request: Request,
     db: AsyncSession = Depends(get_db),
@@ -47,7 +50,7 @@ async def list_videos(
     )
 
 
-@router.get("/videos/{video_id}")
+@router.get("/{video_id}")
 async def video_detail(
     request: Request,
     video_id: int,
@@ -85,7 +88,7 @@ async def video_detail(
     )
 
 
-@router.get("/videos/{video_id}/metrics")
+@router.get("/{video_id}/metrics")
 async def video_metrics_api(
     video_id: int,
     db: AsyncSession = Depends(get_db),

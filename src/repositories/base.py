@@ -29,6 +29,9 @@ class BaseRepository(Generic[ModelType]):
         )
         return result.scalar_one_or_none()
 
+    # Alias for get_by_id
+    get = get_by_id
+
     async def get_all(
         self,
         limit: int = 100,

@@ -42,7 +42,8 @@
       "Bash(docker inspect:*)",
       "Bash(docker ps:*)",
       "Bash(docker-compose up:*)",
-      "Bash(docker-compose build:*)"
+      "Bash(docker-compose build:*)",
+      "Bash(del:*)"
     ]
   }
 }

@@ -11,6 +11,6 @@ class WorkerHeartbeat(BaseModel):
     __tablename__ = "worker_heartbeats"
 
     worker_name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
-    last_heartbeat: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    last_heartbeat: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     status: Mapped[str] = mapped_column(String(50), nullable=False, default="running")
     pid: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)

@@ -8,16 +8,28 @@
 <!-- Add Account Form -->
 <div class="card">
     <h2>Add Account</h2>
-    <form method="post" action="/accounts/add" style="display: flex; gap: 1rem; align-items: flex-end;">
+    <form method="post" action="/accounts/add" style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
         <div class="form-group" style="flex: 1; margin-bottom: 0;">
-            <label for="username">Instagram Username</label>
+            <label for="username">Instagram Username or JSON</label>
             <input
                 type="text"
                 name="username"
                 id="username"
                 class="form-control"
-                placeholder="e.g. instagram"
+                placeholder='e.g. instagram or [{"username": "user1", "user_pk": 123}, ...]'
                 required
+            >
+            <small class="text-muted">You can paste JSON array here for bulk import</small>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="user_pk">Instagram ID (optional)</label>
+            <input
+                type="text"
+                name="user_pk"
+                id="user_pk"
+                class="form-control"
+                placeholder="e.g. 304884398"
+                style="width: 150px;"
             >
         </div>
         <button type="submit" class="btn btn-primary">Add Account</button>

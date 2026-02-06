@@ -2,6 +2,8 @@
 Dashboard route - Overview of system status and statistics.
 """
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,7 +19,8 @@ from src.repositories import (
 )
 
 router = APIRouter()
-templates = Jinja2Templates(directory="admin/templates")
+templates_dir = Path(__file__).parent.parent / "templates"
+templates = Jinja2Templates(directory=str(templates_dir))
 
 
 async def get_worker_status(db: AsyncSession) -> dict:

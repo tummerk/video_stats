@@ -413,11 +413,15 @@ async def main():
         videos_interval = settings.worker_interval_hours * 3600  # hours to seconds
         logger.info(f"  - Fetch videos: every {settings.worker_interval_hours} hours")
 
+    # Delay first run by 1 hour to avoid immediate load on startup
+    first_fetch_time = datetime.now(timezone.utc) + timedelta(hours=1)
+
     apsched.add_job(
         worker.fetch_new_videos,
         'interval',
         seconds=videos_interval,
-        id='fetch_videos'
+        id='fetch_videos',
+        next_run_time=first_fetch_time
     )
 
     # Job 4: Update heartbeat (every 30 seconds)
@@ -437,7 +441,7 @@ async def main():
     # Run initial tasks
     logger.info("Running initial tasks...")
     await worker.update_heartbeat()  # Initial heartbeat
-    await worker.fetch_new_videos()
+    # await worker.fetch_new_videos()  # Removed - now scheduled to run after 1 hour delay
     await worker.update_metric_schedules()
     await worker.process_scheduled_metrics()
 

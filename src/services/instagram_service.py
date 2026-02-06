@@ -112,8 +112,7 @@ class InstagramService:
             try:
                 await asyncio.to_thread(
                     self._client.login_by_sessionid,
-                    settings.instagram_sessionid,
-                    settings.instagramcsrftoken or ""
+                    settings.instagram_sessionid
                 )
                 self._authenticated = True
                 logger.info("Authenticated via sessionid")

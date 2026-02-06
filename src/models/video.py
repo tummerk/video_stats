@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, DateTime, Text, ForeignKey, Index
+from sqlalchemy import String, Integer, DateTime, Text, ForeignKey, Index, BigInteger
 from src.models.base import BaseModel
 
 
@@ -20,8 +20,8 @@ class Video(BaseModel):
     audio_file_path: Mapped[Optional[str]] = mapped_column(String(1024), nullable=True)
     transcription: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
-    # Foreign key
-    account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"), nullable=False)
+    # Foreign key (use BigInteger to match Account.id)
+    account_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("accounts.id"), nullable=False)
 
     # Relationships
     account: Mapped["Account"] = relationship(

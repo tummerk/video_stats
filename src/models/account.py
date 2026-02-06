@@ -1,6 +1,6 @@
 from typing import Optional, List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Integer, BigInteger
 from src.models.base import BaseModel
 
 
@@ -9,8 +9,8 @@ class Account(BaseModel):
 
     __tablename__ = "accounts"
 
-    # Override id to store Instagram user_pk manually
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=False)
+    # Override id to store Instagram user_pk manually (use BigInteger for large IDs)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=False)
     username: Mapped[str] = mapped_column(String(150), unique=True, nullable=False)
     profile_url: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
     followers_count: Mapped[int] = mapped_column(Integer, default=0)

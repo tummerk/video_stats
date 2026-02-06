@@ -1,6 +1,8 @@
 """
 Metric schedules management routes.
 """
+from pathlib import Path
+
 from fastapi import APIRouter, Request, Depends, Form, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -13,10 +15,11 @@ from src.repositories import MetricScheduleRepository, VideoRepository
 from src.models import MetricSchedule
 
 router = APIRouter()
-templates = Jinja2Templates(directory="admin/templates")
+templates_dir = Path(__file__).parent.parent / "templates"
+templates = Jinja2Templates(directory=str(templates_dir))
 
 
-@router.get("/schedules")
+@router.get("/")
 async def list_schedules(
     request: Request,
     db: AsyncSession = Depends(get_db),
@@ -53,7 +56,7 @@ async def list_schedules(
     )
 
 
-@router.post("/schedules/{schedule_id}/retry")
+@router.post("/{schedule_id}/retry")
 async def retry_schedule(
     request: Request,
     schedule_id: int,
